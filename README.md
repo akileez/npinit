@@ -3,6 +3,7 @@
 [![build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 [![Downloads][downloads-image]][downloads-url]
+[![experimental][stability-image]][stability-url]
 
 
 
@@ -58,3 +59,5 @@ Usage: npinit <packageName> [options]
 [coveralls-url]: https://coveralls.io/r/akileez/npinit?branch=master
 [downloads-image]: http://img.shields.io/npm/dm/npinit.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/npinit
+[stability-image]: https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square
+[stability-url]: https://github.com/akileez/npinit
