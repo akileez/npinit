@@ -1,6 +1,6 @@
 {
   "name": "npinit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create a new repo with sane defaults",
   "main": "index.js",
   "scripts": {
