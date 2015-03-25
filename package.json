@@ -1,0 +1,48 @@
+{
+  "name": "npinit",
+  "version": "0.1.0",
+  "description": "Create a new repo with sane defaults",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bin/npinit.js",
+    "lint": "eslint index.js",
+    "env": "env"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akileez/npinit.git"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "npinit": "./bin/npinit.js"
+  },
+  "keywords": [
+    "new",
+    "project",
+    "cli",
+    "shell"
+  ],
+  "author": {
+    "name": "Keith Williams",
+    "email": "akileez@keeda.net"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akileez/npinit/issues"
+  },
+  "homepage": "https://github.com/akileez/npinit",
+  "dependencies": {
+    "argh": "^0.1.3",
+    "chalk": "^1.0.0",
+    "change-case": "^2.2.0",
+    "jsome": "^1.3.0",
+    "mkdirp": "^0.5.0",
+    "moment": "^2.9.0",
+    "mustache": "^1.1.0"
+  },
+  "files": [
+    "LICENSE",
+    "index.js",
+    "README.md"
+  ]
+}
