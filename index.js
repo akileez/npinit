@@ -23,5 +23,6 @@ function init (opts) {
   if (files.test) writer('./test.js', '../templates/test.js')
   if (files.travis) writer('./.travis.yml', '../templates/travis.yml')
   if (opts.install) install()
-  if (opts.git) git()
+  if (opts.git) git.Init()
+  if (opts.meta.type === 'public') git.Push(opts.meta)
 }
