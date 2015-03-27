@@ -1,18 +1,19 @@
 #!/usr/bin/env node
-const argv = require('argh').argv
-const fs   = require('fs')
-const meta = require('../lib/meta')
-const dasher = require('lodash/string/kebabCase')
-const clog = require('jsome')
-const init = require('../')
+const argv   = require('argh').argv
+const fs     = require('fs')
 const exec   = require('child_process').exec
 const assert = require('assert')
+const dasher = require('lodash/string/kebabCase')
+const clog   = require('jsome')
+const meta   = require('../lib/meta')
+const init   = require('../')
+
 
 // process.stdout.on('error', process.exit)
 // console.log(argv)
 
 // help
-const noCommands = process.argv.length <= 2 && process.stdin.isTTY;
+const noCommands = process.argv.length <= 2 && process.stdin.isTTY
 
 if ((argv.argv !== undefined && argv.argv[0] === 'help') || argv.h || argv.help || noCommands) {
   process.stdout.write(fs.readFileSync(__dirname + '/usage.txt', 'utf-8') + '\n')
@@ -88,19 +89,19 @@ function email (conf, cb) {
 
 // git repo initialization
 if (argv.g || argv.git) {
-  opts.git = true
-  opts.meta.repo = 'init'
+  opts.git             = true
+  opts.meta.repo       = 'init'
   opts.files.gitignore = true
 }
 
 // public repo
 if (argv.p || argv.public ) {
-  opts.meta.type = "public"
-  opts.files.license = true
-  opts.files.travis = true
+  opts.meta.type       = "public"
+  opts.files.license   = true
+  opts.files.travis    = true
   opts.files.gitignore = true
-  opts.git = true
-  opts.meta.repo = 'init'
+  opts.git             = true
+  opts.meta.repo       = 'init'
 }
 
 // description for package.json
@@ -118,18 +119,18 @@ if (argv.tags) {
 }
 
 // optional overrides
-if (argv.license) opts.meta.license = argv.license
-if (argv.pkgv)    opts.meta.version = argv.pkgv
+if (argv.license) opts.meta.license  = argv.license
+if (argv.pkgv)    opts.meta.version  = argv.pkgv
 if (argv.author)  opts.inputs.author = argv.author
-if (argv.email)   opts.inputs.email = argv.email
-if (argv.user)    opts.inputs.user  = argv.user
+if (argv.email)   opts.inputs.email  = argv.email
+if (argv.user)    opts.inputs.user   = argv.user
 
 
 // getDate and npm user then create project
 meta(opts, function (nwOpts) {
   if (argv.d || argv.dry) {
-    clog(nwOpts);
+    clog(nwOpts)
   } else {
-    // init(nwOpts);
+    // init(nwOpts)
   }
-});
+})

@@ -1,15 +1,15 @@
 const install = require('./lib/install')
-const write = require('./lib/write')
-const git = require('./lib/git')
-const mkdir = require('mkdirp')
+const write   = require('./lib/write')
+const git     = require('./lib/git')
+const mkdir   = require('mkdirp')
 
 module.exports = init
 
 // Init writing files
 // @param {Object} opts
 function init (opts) {
-  const files = opts.files
-  const pn = opts.meta.packageName
+  const files  = opts.files
+  const pn     = opts.meta.packageName
   const writer = write(opts.meta)
 
   mkdir.sync(pn)
