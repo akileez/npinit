@@ -81,10 +81,10 @@ var opts = {
 
 // optional overrides
 if (argv.license) opts.meta.license = argv.license
-if (argv.pkgv)    opts.meta.version = argv.pkgv
-if (argv.author)  opts.inputs.author = argv.author
-if (argv.email)   opts.inputs.email = argv.email
-if (argv.user)    opts.inputs.user = argv.user
+if (argv.pkgv) opts.meta.version = argv.pkgv
+if (argv.author) opts.inputs.author = argv.author
+if (argv.email) opts.inputs.email = argv.email
+if (argv.user) opts.inputs.user = argv.user
 
 // user information
 // ///////////////////////////////////////////////////////////////////////////////
