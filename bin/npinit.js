@@ -171,7 +171,7 @@ if (argv.tags) {
 const ms = argv.t || argv.timeout || 550
 
 timeout(ms)(function () {
-  log(opts, function(nwOpts) {
+  log(opts, function (nwOpts) {
     if (argv.d || argv.dry) {
       process.stdout.write('\n')
       process.stdout.write('\x1b[36mOptions:\x1b[0m ')
