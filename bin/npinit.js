@@ -15,6 +15,7 @@ const version = require('../package.json').version
 // ///////////////////////////////////////////////////////////////////////////////
 const noCommands = process.argv.length <= 2 && process.stdin.isTTY
 const chk4help = (argv.argv !== undefined && argv.argv[0] === 'help') || argv.h || argv.help
+const chknord = argv.n || argv.new || argv.d || argv.dry
 
 // usage
 if (chk4help || noCommands) usage()
@@ -23,13 +24,9 @@ if (chk4help || noCommands) usage()
 if (argv.v || argv.version) vers()
 
 // package name
-if (argv.argv) {
-  var projName = makePkgName(false)
-} else if (argv.n || argv.new || argv.d || argv.dry) {
-  var projName = makePkgName(true)
-} else {
-  usage()
-}
+if (argv.argv) var projName = makePkgName(false)
+else if (chknord) var projName = makePkgName(true)
+else usage()
 
 function usage () {
   process.stdout.write(fs.readFileSync(__dirname + '/usage.txt', 'utf-8') + '\n')
@@ -152,18 +149,13 @@ if (!pubpriv && pub) {
 }
 
 // description for package.json
-if (argv.desc || argv.description) {
-  opts.meta.description = argv.desc || argv.description
-} else {
-  opts.meta.description = 'null'
-}
+const description = argv.desc || argv.description
+if (description) opts.meta.description = description
+else opts.meta.description = 'null'
 
 // tags for package.json
-if (argv.tags) {
-  opts.meta.tags = argv.tags.split()
-} else {
-  opts.meta.tags = 'null'
-}
+if (argv.tags) opts.meta.tags = argv.tags.split()
+else opts.meta.tags = 'null'
 
 // display options & initialize project
 // ///////////////////////////////////////////////////////////////////////////////
