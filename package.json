@@ -1,6 +1,6 @@
 {
   "name": "npinit",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "node project init: basic unix style module creation, opinionated defaults",
   "main": "index.js",
   "scripts": {
