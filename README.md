@@ -14,7 +14,7 @@ $ npm install -g akileez/npinit
 
 ## Usage
 ```
-Usage: npinit <packageName> [options]
+  Usage: npinit <packageName> [options]
          npinit -n [options]
          npinit -d [options]
 
@@ -23,24 +23,28 @@ Usage: npinit <packageName> [options]
     -h, --help          output usage information
     -v, --version       output the version number
     -n, --new           new private module. for use without a packageName. the default
-                        packageName `testproj###` will be assigned. random number `###`
-                        will be generated to avoid potential conflicts.
+                        packageName `testproj###` will be assigned. random number `###` 
+                        generated to avoid potential conflicts. 
     -d, --dry           dry run displaying metadata used for generation
-    -p, --public        create public module. a git repository will be
-                        automactically initialized. [default mode is private/local module]
-    -g, --git           initialize a git repository [default is none]
+    -g, --github        create public module. a git repository will be 
+                        automactically initialized and pushed to gihub. 
+                        [default mode is private/local module, no git repo]
+    -r, --repo          initialize a git repository [default is none]
+    -p, --noPush        do not push repository to github. use with flags -g or --github
+    -t, --timeout <ms>  timeout delay for processing user info. [default 550ms]. 
     --desc <string>     description for package.json. enclose the string in quotes
                         i.e., "This is an awesome project"
     --tags <string>     keywords for package.json. use a comma separate list of items
                         i.e., "apple, orange, pear"
-
-  Overrides:
-
+    
+  Overrides: 
+    
     --author  <string>  author name for project. [default reads from .npmrc]
     --email   <string>  email for project. [default reads from .npmrc]
     --user    <string>  npm username [default reads from npm whoami]
     --license <string>  license type for project. [default is MIT]
     --pkgv    <string>  semantic version for project [default 0.1.0]
+    
     
 ```
 
