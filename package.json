@@ -1,7 +1,7 @@
 {
   "name": "npinit",
   "version": "0.2.0",
-  "description": "Create a new repo with sane defaults",
+  "description": "node project init: basic unix style module creation, opinionated defaults",
   "main": "index.js",
   "scripts": {
     "start": "node bin/npinit.js",
