@@ -11,6 +11,7 @@ function init (opts) {
   const files  = opts.files
   const pn     = opts.meta.packageName
   const writer = write(opts.meta)
+  const chkPush = (opts.meta.type === 'public') && (opts.meta.push)
 
   mkdir.sync(pn)
   process.chdir(pn)
@@ -24,5 +25,5 @@ function init (opts) {
   if (files.travis) writer('./.travis.yml', '../templates/travis.yml')
   if (opts.install) install()
   if (opts.git) git.Init()
-  if (opts.meta.type === 'public') git.Push(opts.meta)
+  if (chkPush) git.Push(opts.meta)
 }
