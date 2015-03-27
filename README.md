@@ -9,7 +9,7 @@
 
 ## Installation
 ```bash
-$ npm install akileez/npinit
+$ npm install -g akileez/npinit
 ```
 
 ## Usage
