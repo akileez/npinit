@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const assert = require('assert')
-const exec = require('child_process').exec
 const argv = require('argh').argv
 const clog = require('jsome')
 const moment = require('moment')
 const dasher = require('lodash/string/kebabCase')
 const init = require('../')
 const log = require('../lib/log')
+const meta = require('../lib/meta')
 const timeout = require('../lib/timeout')
 const version = require('../package.json').version
 
@@ -68,59 +68,7 @@ var opts = {
     license: 'MIT',
     repo: 'null',
     push: false
-  },
-  inputs: {
-    author: '',
-    email: '',
-    user: ''
   }
-}
-
-// optional overrides
-if (argv.license) opts.meta.license = argv.license
-if (argv.pkgv) opts.meta.version = argv.pkgv
-if (argv.author) opts.inputs.author = argv.author
-if (argv.email) opts.inputs.email = argv.email
-if (argv.user) opts.inputs.user = argv.user
-
-// user information
-// ///////////////////////////////////////////////////////////////////////////////
-
-author(opts, function (author) {
-  opts.meta.author = author
-})
-
-email(opts, function (email) {
-  opts.meta.email = email
-})
-
-whoami(opts, function (name) {
-  opts.meta.name = name
-})
-
-function author (conf, cb) {
-  exec('npm config get init.author.name', function (err, author) {
-    assert.ifError(err)
-    author = conf.inputs.author || author.replace(/(\n)/gm, '')
-    cb(author)
-  })
-}
-
-function email (conf, cb) {
-  exec('npm config get init.author.email', function (err, email) {
-    assert.ifError(err)
-    email = conf.inputs.email || email.replace(/(\n)/gm, '')
-    cb(email)
-  })
-}
-
-// get user info
-function whoami (conf, cb) {
-  exec('npm whoami', function (err, name) {
-    assert.ifError(err)
-    name = conf.inputs.user || name.replace(/(\n)/gm, '')
-    cb(name)
-  })
 }
 
 // option configuration
@@ -157,20 +105,19 @@ else opts.meta.description = 'null'
 if (argv.tags) opts.meta.tags = argv.tags.split()
 else opts.meta.tags = 'null'
 
-// display options & initialize project
+// get user information, display options & initialize project
 // ///////////////////////////////////////////////////////////////////////////////
 
-const ms = argv.t || argv.timeout || 550
-
-timeout(ms)(function () {
-  log(opts, function (nwOpts) {
+meta(opts, function (nwOpts) {
+  timeout(25)(function () {
+    log(nwOpts)
     if (argv.d || argv.dry) {
-      process.stdout.write('\n')
-      process.stdout.write('\x1b[36mOptions:\x1b[0m ')
-      process.stdout.write('\n\n')
-      clog(nwOpts)
-    } else {
-      // init(nwOpts)
-    }
+        process.stdout.write('\n')
+        process.stdout.write('\x1b[36mOptions:\x1b[0m ')
+        process.stdout.write('\n\n')
+        clog(nwOpts)
+      } else {
+        // init(nwOpts)
+      }
   })
 })
