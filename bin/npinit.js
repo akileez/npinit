@@ -12,7 +12,7 @@ const timeout = require('../lib/timeout')
 // ///////////////////////////////////////////////////////////////////////////////
 const noCommands = process.argv.length <= 2 && process.stdin.isTTY
 const chk4help = (argv.argv !== undefined && argv.argv[0] === 'help') || argv.h || argv.help
-const chknord = argv.n || argv.new || argv.d || argv.dry
+const chkstate = argv.n || argv.new || argv.d || argv.dry
 
 // usage
 if (chk4help || noCommands) usage()
@@ -22,7 +22,7 @@ if (argv.v || argv.version) vers()
 
 // package name
 if (argv.argv) var projName = makePkgName(false)
-else if (chknord) var projName = makePkgName(true)
+else if (chkstate) var projName = makePkgName(true)
 else usage()
 
 function usage () {
@@ -45,7 +45,7 @@ function usage () {
                           automactically initialized and pushed to gihub.
                           [default mode is private/local module, no git repo]
       -r, --repo          initialize a git repository [default is none]
-      -p, --noPush        do not push repository to github. use with flags -g or --github
+      --noPush            do not push repository to github. use with flags -g or --github
       --desc <string>     description for package.json. enclose the string in quotes
                           i.e., "This is an awesome project"
       --tags <string>     keywords for package.json. use a comma separate list of items
@@ -112,7 +112,7 @@ if (argv.r || argv.repo) {
   opts.files.gitignore = true
 }
 
-// chedk for private and public projects being created together
+// check for private and public projects being created together
 const pubpriv = (argv.g || argv.github) && (argv.n || argv.new)
 const pub = (argv.g || argv.github)
 

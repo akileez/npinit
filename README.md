@@ -30,7 +30,7 @@ $ npm install -g akileez/npinit
                         automactically initialized and pushed to gihub.
                         [default mode is private/local module, no git repo]
     -r, --repo          initialize a git repository [default is none]
-    -p, --noPush        do not push repository to github. use with flags -g or --github
+    --noPush            do not push repository to github. use with flags -g or --github
     --desc <string>     description for package.json. enclose the string in quotes
                         i.e., "This is an awesome project"
     --tags <string>     keywords for package.json. use a comma separate list of items
