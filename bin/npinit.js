@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-const fs = require('fs')
-const assert = require('assert')
 const argv = require('argh').argv
 const clog = require('jsome')
 const moment = require('moment')
@@ -145,12 +143,12 @@ meta(opts, function (nwOpts) {
   timeout(25)(function () {
     log(nwOpts)
     if (argv.d || argv.dry) {
-        process.stdout.write('\n')
-        process.stdout.write('\x1b[36mOptions:\x1b[0m ')
-        process.stdout.write('\n\n')
-        clog(nwOpts)
-      } else {
-        // init(nwOpts)
-      }
+      process.stdout.write('\n')
+      process.stdout.write('\x1b[36mOptions:\x1b[0m ')
+      process.stdout.write('\n\n')
+      clog(nwOpts)
+    } else {
+      // init(nwOpts)
+    }
   })
 })
