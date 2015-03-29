@@ -9,7 +9,6 @@ const init = require('../')
 const log = require('../lib/log')
 const meta = require('../lib/meta')
 const timeout = require('../lib/timeout')
-const version = require('../package.json').version
 
 // checks for help
 // ///////////////////////////////////////////////////////////////////////////////
@@ -29,12 +28,47 @@ else if (chknord) var projName = makePkgName(true)
 else usage()
 
 function usage () {
-  process.stdout.write(fs.readFileSync(__dirname + '/usage.txt', 'utf-8') + '\n')
+  console.log(function () {
+    /*
+
+    Usage: npinit <packageName> [options]
+           npinit -n [options]
+           npinit -d [options]
+
+    Options:
+
+      -h, --help          output usage information
+      -v, --version       output the version number
+      -n, --new           new private module. for use without a packageName. the default
+                          packageName `testproj###` will be assigned. random number `###`
+                          generated to avoid potential conflicts.
+      -d, --dry           dry run displaying metadata used for generation
+      -g, --github        create public module. a git repository will be
+                          automactically initialized and pushed to gihub.
+                          [default mode is private/local module, no git repo]
+      -r, --repo          initialize a git repository [default is none]
+      -p, --noPush        do not push repository to github. use with flags -g or --github
+      -t, --timeout <ms>  timeout delay for processing user info. [default 550ms].
+      --desc <string>     description for package.json. enclose the string in quotes
+                          i.e., "This is an awesome project"
+      --tags <string>     keywords for package.json. use a comma separate list of items
+                          i.e., "apple, orange, pear"
+
+    Overrides:
+
+      --author  <string>  author name for project. [default reads from .npmrc]
+      --email   <string>  email for project. [default reads from .npmrc]
+      --user    <string>  github username [default reads from .npmrc]
+      --license <string>  license type for project. [default is MIT]
+      --pkgv    <string>  semantic version for project [default 0.1.0]
+
+    */
+  }.toString().split(/\n/).slice(2, -2).join('\n'))
   process.exit(0)
 }
 
 function vers () {
-  process.stdout.write(version + '\n')
+  process.stdout.write(require('../package.json').version + '\n')
   process.exit(0)
 }
 
