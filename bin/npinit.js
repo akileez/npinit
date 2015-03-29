@@ -6,7 +6,6 @@ const dasher = require('lodash/string/kebabCase')
 const init = require('../')
 const log = require('../lib/log')
 const meta = require('../lib/meta')
-const timeout = require('../lib/timeout')
 
 // checks for help
 // ///////////////////////////////////////////////////////////////////////////////
@@ -140,15 +139,13 @@ else opts.meta.tags = 'null'
 // ///////////////////////////////////////////////////////////////////////////////
 
 meta(opts, function (nwOpts) {
-  timeout(25)(function () {
-    log(nwOpts)
-    if (argv.d || argv.dry) {
-      process.stdout.write('\n')
-      process.stdout.write('\x1b[36mOptions:\x1b[0m ')
-      process.stdout.write('\n\n')
-      clog(nwOpts)
-    } else {
-      // init(nwOpts)
-    }
-  })
+  log(nwOpts)
+  if (argv.d || argv.dry) {
+    process.stdout.write('\n')
+    process.stdout.write('\x1b[36mOptions:\x1b[0m ')
+    process.stdout.write('\n\n')
+    clog(nwOpts)
+  } else {
+    // init(nwOpts)
+  }
 })
