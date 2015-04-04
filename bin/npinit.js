@@ -59,14 +59,6 @@ function usage () {
                           off will use `hub` (https://github.com/github/hub) to create the remote
                           repository. [default command `hub create`]
 
-      --ghAuth            github token authorization with https://www.npmjs.com/package/ghauth
-
-      --ghttps            use with --addRemote to process git repository with command:
-
-                              `git remote add origin https://github.com/username/repo.git`
-
-                          for user login prompts in the event to above processes do not work.
-
       --noRemote          do not create a remote repository on github. noRemote assumes noPush and will
                           override addRemote if both are present. it will also override the default
                           remote command `hub create` if addRemote is not present when creating a
@@ -128,9 +120,7 @@ var opts = {
     license: 'MIT',
     repo: 'null',
     noPush: false,
-    noRemote: false,
-    ghAuth: false,
-    ghttps: false
+    noRemote: false
   }
 }
 
@@ -168,8 +158,6 @@ function chkRemote () {
     opts.meta.noRemote = false
     opts.meta.noPush = argv.noPush ? true : false
     opts.meta.remoteCmd = argv.addRemote ? "addRemote" : "hubCreate"
-    opts.meta.ghAuth = argv.ghAuth ? true : false
-    opts.meta.ghttps = argv.ghttps ? true : false
   }
 }
 
