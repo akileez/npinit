@@ -118,7 +118,8 @@ var opts = {
     type: 'private',
     version: '0.1.0',
     license: 'MIT',
-    repo: 'null',
+    repo: 'none',
+    remoteCmd: 'none',
     noPush: false,
     noRemote: false
   }
@@ -153,7 +154,7 @@ function chkRemote () {
   if (argv.noRemote) {
     opts.meta.noRemote = true
     opts.meta.noPush = true
-    opts.meta.remoteCmd = null
+    opts.meta.remoteCmd = 'no public repository'
   } else {
     opts.meta.noRemote = false
     opts.meta.noPush = argv.noPush ? true : false
@@ -164,7 +165,7 @@ function chkRemote () {
 // description for package.json
 const description = argv.desc || argv.description
 if (description) opts.meta.description = description
-else opts.meta.description = 'null'
+else opts.meta.description = 'An awesome module being created'
 
 // tags for package.json
 if (argv.tags) opts.meta.tags = argv.tags.split()
