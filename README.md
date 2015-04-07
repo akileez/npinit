@@ -94,7 +94,7 @@ npm config set init.version 0.1.0
 
 
 ## License
-[MIT](https://tldrlegal.com/license/mit-license)
+[ISC](https://tldrlegal.com/license/-isc-license)
 
 [npm-image]: https://img.shields.io/npm/v/npinit.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/npinit
