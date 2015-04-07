@@ -57,13 +57,14 @@ npm config set init.version 0.1.0
                         off will use `hub` (https://github.com/github/hub) to create
                         the remote repository. [default command `hub create`]
 
-    --noRemote          do not create a remote repository on github. noRemote assumes noPush
-                        and will override addRemote if both are present. it will also override
-                        the default remote command `hub create` if addRemote is not present
-                        when creating a public module with flags -g or --github.
+    --noRemote          do not create a remote repository on github. noRemote assumes 
+                        noPush and will override addRemote if both are present. it will 
+                        also override the default remote command `hub create` if 
+                        addRemote is not present when creating a public module with 
+                        flags -g or --github.
 
-    --noPush            do not push repository to github. use only with flags -g or --github
-                        [default is push]
+    --noPush            do not push repository to github. use only with 
+                        flags -g or --github [default is push]
 
     --desc <string>     description for package.json and github repository if using `hub`.
                         enclose the string in quotes, i.e., "This is an awesome project"
@@ -78,7 +79,7 @@ npm config set init.version 0.1.0
     --user    <string>  github username [default reads from .npmrc or 'githubName']
     --license <string>  license type for project. [default reads from .npmrc => ISC]
     --pkgv    <string>  semantic version for project [default reads from .npmrc => 1.0.0]
-       
+
 ```
 
 ## API
