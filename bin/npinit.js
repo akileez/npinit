@@ -75,11 +75,11 @@ function usage () {
 
     Overrides:
 
-      --author  <string>  author name for project. [default reads from .npmrc]
-      --email   <string>  email for project. [default reads from .npmrc]
-      --user    <string>  github username [default reads from .npmrc]
-      --license <string>  license type for project. [default is MIT]
-      --pkgv    <string>  semantic version for project [default 0.1.0]
+      --author  <string>  author name for project. [default reads from .npmrc or 'Your Name']
+      --email   <string>  email for project. [default reads from .npmrc or 'your@email.com']
+      --user    <string>  github username [default reads from .npmrc or 'githubName']
+      --license <string>  license type for project. [default reads from .npmrc => ISC]
+      --pkgv    <string>  semantic version for project [default reads from .npmrc => 1.0.0]
 
     */
   }.toString().split(/\n/).slice(2, -2).join('\n'))

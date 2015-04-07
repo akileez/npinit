@@ -19,6 +19,8 @@ npm config set init.author.name "Your Name"
 npm config set init.author.url "http://example.com"
 npm config set init.author.email "me@example.com"
 npm config set init.author.github "your-github-handle"
+npm config set init.license "MIT"
+npm config set init.version 0.1.0
 ```
 
 ## Usage
@@ -70,11 +72,11 @@ npm config set init.author.github "your-github-handle"
 
   Overrides:
 
-    --author  <string>  author name for project. [default reads from .npmrc]
-    --email   <string>  email for project. [default reads from .npmrc]
-    --user    <string>  github username [default reads from .npmrc]
-    --license <string>  license type for project. [default is MIT]
-    --pkgv    <string>  semantic version for project [default 0.1.0]
+    --author  <string>  author name for project. [default reads from .npmrc or 'Your Name']
+    --email   <string>  email for project. [default reads from .npmrc or 'your@email.com']
+    --user    <string>  github username [default reads from .npmrc or 'githubName']
+    --license <string>  license type for project. [default reads from .npmrc => ISC]
+    --pkgv    <string>  semantic version for project [default reads from .npmrc => 1.0.0]
 
     
     
