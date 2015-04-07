@@ -48,9 +48,10 @@ npm config set init.author.github "your-github-handle"
     
     --addRemote         process will use the generic git command: 
                         
-                            `git remote add origin git@github.com:username/repo.git`
+                            `git remote add origin https://github.com/username/repo.git`
                         
-                        username and repo will be automactically added. leaving this option
+                        username and repo will be automactically added. You will have to enter
+                        your github username and password. Leaving this option
                         off will use `hub` (https://github.com/github/hub) to create the remote 
                         repository. [default command `hub create`]
     
