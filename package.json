@@ -1,6 +1,6 @@
 {
   "name": "npinit",
-  "version": "0.3.19",
+  "version": "0.3.20",
   "description": "node project init: basic unix style module creation, opinionated defaults",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "name": "Keith Williams",
     "email": "akileez@keeda.net"
   },
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/akileez/npinit/issues"
   },
