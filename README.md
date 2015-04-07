@@ -85,12 +85,14 @@ npm config set init.version 0.1.0
 ## Why?
 - to explore node further (process, assert)
 - to get handle on callbacks (waterfall method)
-- to reduce steps/boilerplate in module creation given my preferences 
+- to reduce steps/boilerplate in module creation given my preferences
+- to use a base argument processor and config it for application use (argh)
 
 ## See Also
 [initialize](https://www.npmjs.com/package/initialize). Inspiration of this project. Essentially a fork. I say 
 essentially because I am only using the project structure. Practically all internals have been (or yet to be) refactored.
 
+[argh](https://www.npmjs.com/package/argh). light weight option/argv parser for node, it only parses options, nothing more then that.
 ## License
 [ISC](https://tldrlegal.com/license/-isc-license)
 
