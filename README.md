@@ -82,16 +82,14 @@ npm config set init.version 0.1.0
 
 ```
 
-## API
-```js
-
-```
-
 ## Why?
-
+- to explore node further (process, assert)
+- to get handle on callbacks (waterfall method)
+- to reduce steps/boilerplate in module creation given my preferences 
 
 ## See Also
-
+[initialize](https://www.npmjs.com/package/initialize). Inspiration of this project. Essentially a fork. I say 
+essentially because I am only using the project structure. Practically all internals have been (or yet to be) refactored.
 
 ## License
 [ISC](https://tldrlegal.com/license/-isc-license)
