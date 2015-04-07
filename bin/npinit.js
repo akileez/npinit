@@ -117,8 +117,6 @@ var opts = {
     year: moment().format('YYYY'),
     packageName: projName,
     type: 'private',
-    version: '0.1.0',
-    license: 'MIT',
     repo: 'none',
     remoteCmd: 'none',
     noPush: false,
