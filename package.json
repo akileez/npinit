@@ -1,6 +1,6 @@
 {
   "name": "npinit",
-  "version": "0.3.30",
+  "version": "0.3.31",
   "description": "node project init: basic unix style module creation, opinionated defaults",
   "main": "index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "argh": "^0.1.3",
     "chalk": "^1.0.0",
     "jsome": "^1.3.0",
-    "lodash": "^3.6.0",
+    "lodash.kebabcase": "^3.0.1",
     "mkdirp": "^0.5.0",
     "moment": "^2.9.0",
     "mustache": "^1.1.0",
