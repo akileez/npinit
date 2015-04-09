@@ -1,6 +1,6 @@
 {
   "name": "npinit",
-  "version": "0.3.29",
+  "version": "0.3.30",
   "description": "node project init: basic unix style module creation, opinionated defaults",
   "main": "index.js",
   "scripts": {
@@ -39,7 +39,8 @@
     "mkdirp": "^0.5.0",
     "moment": "^2.9.0",
     "mustache": "^1.1.0",
-    "npmconf": "^2.1.1"
+    "npmconf": "^2.1.1",
+    "run-parallel": "^1.1.0"
   },
   "files": [
     "LICENSE",
