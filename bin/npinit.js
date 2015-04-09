@@ -2,7 +2,7 @@
 const argv = require('argh').argv
 const clog = require('jsome')
 const moment = require('moment')
-const dasher = require('lodash/string/kebabCase')
+const slug = require('lodash.kebabcase')
 const init = require('../')
 const log = require('../lib/log')
 const meta = require('../lib/meta')
@@ -94,7 +94,7 @@ function vers () {
 
 function makePkgName (choice) {
   switch (choice) {
-    case false: return dasher(argv.argv[0])
+    case false: return slug(argv.argv[0])
     case true: return 'testproj' + Math.floor(Math.random() * (1000 - 101) + 101)
   }
 }
