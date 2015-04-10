@@ -15,7 +15,7 @@ function init (opts) {
   process.chdir(pn)
 
   tmpls(opts, function (done) {
-    if (opts.install) install()
+    if (opts.install) install(opts)
     else if (opts.git) git(opts)
     else console.log('We are done')
   })
