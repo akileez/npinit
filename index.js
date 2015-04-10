@@ -17,7 +17,7 @@ function init (opts) {
   tmpls(opts, function (done) {
     if (opts.install) install(opts)
     else if (opts.git) git(opts)
-    else console.log('We are done')
+    else process.stdout.write('We are done')
   })
 }
 
@@ -25,9 +25,8 @@ function tmpls (opts, cb) {
   const writer = write(opts.meta)
   const files = opts.files
 
-  console.log('')
-  console.log('Templates:')
-  console.log('')
+  process.stdout.write('\n\x1b[36mTemplates:\x1b[0m\n')
+
   if (files.gitignore) writer('./.gitignore', '../templates/gitignore')
   if (files.index) writer('./index.js', '../templates/index.js')
   if (files.license) writer('./LICENSE', '../templates/LICENSE')
