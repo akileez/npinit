@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const argv = require('argh').argv
 const clog = require('jsome')
-const moment = require('moment')
 const slug = require('lodash.kebabcase')
 const init = require('../')
 const log = require('../lib/log')
@@ -114,8 +113,8 @@ var opts = {
     travis: false
   },
   meta: {
-    date: moment().format('dddd, MMMM Do YYYY, h:mm:ss A [GMT]Z'),
-    year: moment().format('YYYY'),
+    date: new Date().toLocaleString(),
+    year: new Date().getFullYear().toString(),
     packageName: projName,
     type: 'private',
     repo: 'none',
