@@ -3,8 +3,11 @@ const write = require('./lib/write')
 const git = require('./lib/git')
 const tim = require('./lib/timeout')
 const mkdir = require('mkdirp')
+const chalk = require('chalk')
 
 module.exports = init
+
+const blu = chalk.blue
 
 // Init writing files
 // @param {Object} opts
@@ -25,7 +28,7 @@ function tmpls (opts, cb) {
   const writer = write(opts.meta)
   const files = opts.files
 
-  process.stdout.write('\n\x1b[36mTemplates:\x1b[0m\n')
+  process.stdout.write(blu('\nTemplates:\n\n'))
 
   if (files.gitignore) writer('./.gitignore', '../templates/gitignore')
   if (files.index) writer('./index.js', '../templates/index.js')
