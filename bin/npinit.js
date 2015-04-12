@@ -59,13 +59,16 @@ function usage () {
                           off will use `hub` (https://github.com/github/hub) to create
                           the remote repository. [default command `hub create`]
 
-      --noRemote          do not create a remote repository on github. noRemote assumes noPush
+      -R, --noRemote      do not create a remote repository on github. noRemote assumes noPush
                           and will override addRemote if both are present. it will also override
                           the default remote command `hub create` if addRemote is not present
                           when creating a public module with flags -g or --github.
 
-      --noPush            do not push repository to github. use only with flags -g or --github
+      -P, --noPush        do not push repository to github. use only with flags -g or --github
                           [default is push]
+
+      -D, --noDeps        do not install any dependencies.
+                          [defaults to `npm i mocha standard --save-dev`]
 
       --desc <string>     description for package.json and github repository if using `hub`.
                           enclose the string in quotes, i.e., "This is an awesome project"
@@ -128,7 +131,9 @@ var opts = {
 // ///////////////////////////////////////////////////////////////////////////////
 
 // git repo initialization
-if (argv.r || argv.repo) {
+if (argv.r || argv.repo) repo()
+
+function repo () {
   opts.git = true
   opts.meta.repo = 'init'
   opts.files.gitignore = true
@@ -143,23 +148,26 @@ if (!pubpriv && pub) {
   opts.meta.type = 'public'
   opts.files.license = true
   opts.files.travis = true
-  opts.files.gitignore = true
-  opts.git = true
-  opts.meta.repo = 'init'
+  repo()
   chkRemote()
+} else {
+  repo()
 }
 
 function chkRemote () {
-  if (argv.noRemote) {
+  if (argv.noRemote || argv.R) {
     opts.meta.noRemote = true
     opts.meta.noPush = true
     opts.meta.remoteCmd = 'no public repository'
   } else {
     opts.meta.noRemote = false
-    opts.meta.noPush = argv.noPush ? true : false
+    opts.meta.noPush = argv.noPush || argv.P ? true : false
     opts.meta.remoteCmd = argv.addRemote ? "addRemote" : "hubCreate"
   }
 }
+
+// install dependencies
+if (argv.noDeps || argv.D) opts.install = false
 
 // description for package.json
 const description = argv.desc || argv.description
