@@ -8,6 +8,7 @@ const chalk = require('chalk')
 module.exports = init
 
 const blu = chalk.blue
+const mag = chalk.magenta
 
 // Init writing files
 // @param {Object} opts
@@ -20,7 +21,7 @@ function init (opts) {
   tmpls(opts, function (done) {
     if (opts.install) install(opts)
     else if (opts.git) git(opts)
-    else process.stdout.write('We are done')
+    else process.stdout.write(mag('\nAll done.\n'))
   })
 }
 
