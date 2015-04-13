@@ -35,6 +35,8 @@ npm config set init.version 0.1.0
 
     -v, --version       output the version number
 
+    -d, --dry           dry run displaying metadata used for generation
+
     -n, --new           new private module. for use without a packageName. the default
                         packageName `testproj###` will be assigned. random number `###`
                         generated to avoid potential conflicts.
@@ -42,8 +44,11 @@ npm config set init.version 0.1.0
     -g, --github        new public module. a git repository will be
                         automactically initialized and pushed to gihub. a packageName
                         is required. [default mode is private module, no git repo]
-
-    -d, --dry           dry run displaying metadata used for generation
+                        running option -n or --new with -g or --github is equivalent to
+                        option `-nr` or `--new --repo` initializing a new private
+                        module with a git repository. packageName will not be required.
+                        options --addRemote, --noRemote and --noPush are inactive in
+                        this mode when `-ng` are run together.
 
     -r, --repo          initialize a git repository when generating a private module
                         [default is none]
@@ -65,17 +70,17 @@ npm config set init.version 0.1.0
     -P, --noPush        do not push repository to github. use only with flags -g or --github
                         [default is push]
 
-    -D, --noDeps        do not install any dependencies.
-                        [defaults to `npm i mocha standard --save-dev`]
+    -D, --noDeps        do not install default dependencies.
+                        [defaults: `npm i mocha standard --save-dev`]
 
-    --desc <string>     description for package.json and github repository if using `hub`.
-                        enclose the string in quotes, i.e., "This is an awesome project"
-
-    --tags <string>     keywords for package.json. use a comma separate list of items
-                        i.e., "apple, orange, pear"
+    --modules <string>  a list of node modules to install, i.e., `--modules "lodash moment"` or
+                        `--modules "lodash, moment"`. this option is independent from no-dependencies
+                        option -D or --noDeps.
 
   Overrides:
 
+    --desc    <string>  description for package.json and github repository if using `hub`.
+                        enclose the string in quotes, i.e., "This is an awesome project"
     --author  <string>  author name for project. [default reads from .npmrc or 'Your Name']
     --email   <string>  email for project. [default reads from .npmrc or 'your@email.com']
     --user    <string>  github username [default reads from .npmrc or 'githubName']
