@@ -48,7 +48,7 @@ npm config set init.version 0.1.0
                         option `-nr` or `--new --repo` initializing a new private
                         module with a git repository. packageName will not be required.
                         options --addRemote, --noRemote and --noPush are inactive in
-                        this mode when `-ng` are run together.
+                        this mode.
 
     -r, --repo          initialize a git repository when generating a private module
                         [default is none]
@@ -57,17 +57,18 @@ npm config set init.version 0.1.0
 
                           `git remote add origin https://github.com/username/repo.git`
 
-                        username and repo will be automactically added. Leaving this 
-                        option off will use `hub` (https://github.com/github/hub) 
-                        to createthe remote repository. [default command `hub create`]. 
                         You will have to enter your github username and password 
-                        if NOT using the --noPush option. 
+                        if you omit the --noPush option in conjunction with addRemote. 
+                        user and repo names for the above command will be automactically 
+                        added. By default, npinit uses the `hub` command 
+                        (https://github.com/github/hub) to create a remote repository. 
+                        [`hub` is the default command --> `hub create`]
+                         
 
     -R, --noRemote      do not create a remote repository on github. noRemote
                         assumes noPush and will override addRemote if both are present.
                         it will also override the default remote command `hub create`
-                        if addRemote is not present when creating a public module
-                        with flags -g or --github.
+                        if addRemote is not used when creating a public module.
 
     -P, --noPush        do not push repository to github. use only with
                         flags -g or --github [default is push]
@@ -75,9 +76,9 @@ npm config set init.version 0.1.0
     -D, --noDeps        do not install default dependencies.
                         [defaults: `npm i mocha standard --save-dev`]
 
-    --mods <string>     a list of node modules to install, i.e.,
-                        `--mods "lodash moment"` or `--mods "lodash, moment"`.
-                        this option is independent from no-dependencies option
+    --mods <string>     a user created list of node modules to install, i.e.,
+                        `--mods "lodash moment"` or `--mods "gulp, less, etc."`.
+                        this option is independent from the no-dependencies option
                         -D or --noDeps.
 
   Overrides:
@@ -91,9 +92,29 @@ npm config set init.version 0.1.0
 
 ```
 
+## Examples
+
+```bash
+npinit -d # same as npinit -dn
+# dry run. will display metadata of configured options (private/local module)
+npinit -dg
+# dry run. metadata of public module with git repo initialize
+npinit -dng # same as npinit -dnr
+# dry run private/local module with git repo initalized
+npinit -gD --noPush 
+# display help because -g/--github wants a package/project name
+npinit test -g 
+#
+npinit test -g --addRemote --noPush
+npinit test -g --noRemote --mods "async lodash coffeescript mout"
+npinit test -g --desc "Hello World" --author=me --email "some@body.com" --pkgv "0.4.0" --user=zeke --license "BSD"
+npinit hellotest -rD
+
+```
+
 ## Why?
 - to explore node further (process, assert)
-- to get handle on callbacks (waterfall method)
+- to get handle on callbacks.
 - to reduce steps/boilerplate in module creation given my preferences
 - to use a base argument processor and config it for application use (argh)
 
@@ -102,7 +123,7 @@ npm config set init.version 0.1.0
 essentially because I am only using the project structure. Practically all internals have been (or yet to be) refactored.
 
 [argh](https://www.npmjs.com/package/argh). light weight option/argv parser for node, it only parses options, nothing more then that.
-## License
+## License [![ISC license][license-img]][license-url]
 [ISC](https://tldrlegal.com/license/-isc-license)
 
 [npm-image]: https://img.shields.io/npm/v/npinit.svg?style=flat-square
@@ -115,3 +136,5 @@ essentially because I am only using the project structure. Practically all inter
 [downloads-url]: https://npmjs.org/package/npinit
 [stability-image]: https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square
 [stability-url]: https://github.com/akileez/npinit
+[license-img]: https://img.shields.io/badge/license-ISC-blue.svg?style=flat-square
+[license-url]: https://github.com/akileez/npinit/blob/master/license.md
