@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/{{name}}/{{packageName}}",
   "bugs": {
-    "url": "https://github.com/{{name}}/{{packageName}}/issues",
-  }
+    "url": "https://github.com/{{name}}/{{packageName}}/issues"
+  },
   "license": {
     "type": "{{license}}",
     "url": "https://github.com/{{name}}/{{packageName}}/blob/master/LICENSE"
