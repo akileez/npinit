@@ -62,25 +62,26 @@ npm config set init.version 0.1.0
                         off will use `hub` (https://github.com/github/hub) to create
                         the remote repository. [default command `hub create`]
 
-    -R, --noRemote      do not create a remote repository on github. noRemote assumes noPush
-                        and will override addRemote if both are present. it will also override
-                        the default remote command `hub create` if addRemote is not present
-                        when creating a public module with flags -g or --github.
+    -R, --noRemote      do not create a remote repository on github. noRemote
+                        assumes noPush and will override addRemote if both are present.
+                        it will also override the default remote command `hub create`
+                        if addRemote is not present when creating a public module
+                        with flags -g or --github.
 
-    -P, --noPush        do not push repository to github. use only with flags -g or --github
-                        [default is push]
+    -P, --noPush        do not push repository to github. use only with
+                        flags -g or --github [default is push]
 
     -D, --noDeps        do not install default dependencies.
                         [defaults: `npm i mocha standard --save-dev`]
 
-    --modules <string>  a list of node modules to install, i.e., `--modules "lodash moment"` or
-                        `--modules "lodash, moment"`. this option is independent from no-dependencies
-                        option -D or --noDeps.
+    --mods <string>     a list of node modules to install, i.e.,
+                        `--modules "lodash moment"` or `--modules "lodash, moment"`.
+                        this option is independent from no-dependencies option
+                        -D or --noDeps.
 
   Overrides:
 
     --desc    <string>  description for package.json and github repository if using `hub`.
-                        enclose the string in quotes, i.e., "This is an awesome project"
     --author  <string>  author name for project. [default reads from .npmrc or 'Your Name']
     --email   <string>  email for project. [default reads from .npmrc or 'your@email.com']
     --user    <string>  github username [default reads from .npmrc or 'githubName']

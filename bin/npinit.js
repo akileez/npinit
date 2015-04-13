@@ -26,71 +26,72 @@ else usage()
 
 function usage () {
   console.log(function () {
-    /*
+  /*
 
-    Usage: npinit <packageName> [options]
-           npinit -n [options]
-           npinit -d [options]
+  Usage: npinit <packageName> [options]
+         npinit -n [options]
+         npinit -d [options]
 
-    Options:
+  Options:
 
-      -h, --help          output usage information
+    -h, --help          output usage information
 
-      -v, --version       output the version number
+    -v, --version       output the version number
 
-      -d, --dry           dry run displaying metadata used for generation
+    -d, --dry           dry run displaying metadata used for generation
 
-      -n, --new           new private module. for use without a packageName. the default
-                          packageName `testproj###` will be assigned. random number `###`
-                          generated to avoid potential conflicts.
+    -n, --new           new private module. for use without a packageName. the default
+                        packageName `testproj###` will be assigned. random number `###`
+                        generated to avoid potential conflicts.
 
-      -g, --github        new public module. a git repository will be
-                          automactically initialized and pushed to gihub. a packageName
-                          is required. [default mode is private module, no git repo]
-                          running option -n or --new with -g or --github is equivalent to
-                          option `-nr` or `--new --repo` initializing a new private
-                          module with a git repository. packageName will not be required.
-                          options --addRemote, --noRemote and --noPush are inactive in
-                          this mode when `-ng` are run together.
+    -g, --github        new public module. a git repository will be
+                        automactically initialized and pushed to gihub. a packageName
+                        is required. [default mode is private module, no git repo]
+                        running option -n or --new with -g or --github is equivalent to
+                        option `-nr` or `--new --repo` initializing a new private
+                        module with a git repository. packageName will not be required.
+                        options --addRemote, --noRemote and --noPush are inactive in
+                        this mode when `-ng` are run together.
 
-      -r, --repo          initialize a git repository when generating a private module
-                          [default is none]
+    -r, --repo          initialize a git repository when generating a private module
+                        [default is none]
 
-      --addRemote         process will use the generic git command:
+    --addRemote         process will use the generic git command:
 
-                              `git remote add origin https://github.com/username/repo.git`
+                            `git remote add origin https://github.com/username/repo.git`
 
-                          username and repo will be automactically added. You will have
-                          to enter your github username and password. Leaving this option
-                          off will use `hub` (https://github.com/github/hub) to create
-                          the remote repository. [default command `hub create`]
+                        username and repo will be automactically added. You will have
+                        to enter your github username and password. Leaving this option
+                        off will use `hub` (https://github.com/github/hub) to create
+                        the remote repository. [default command `hub create`]
 
-      -R, --noRemote      do not create a remote repository on github. noRemote assumes noPush
-                          and will override addRemote if both are present. it will also override
-                          the default remote command `hub create` if addRemote is not present
-                          when creating a public module with flags -g or --github.
+    -R, --noRemote      do not create a remote repository on github. noRemote
+                        assumes noPush and will override addRemote if both are present.
+                        it will also override the default remote command `hub create`
+                        if addRemote is not present when creating a public module
+                        with flags -g or --github.
 
-      -P, --noPush        do not push repository to github. use only with flags -g or --github
-                          [default is push]
+    -P, --noPush        do not push repository to github. use only with
+                        flags -g or --github [default is push]
 
-      -D, --noDeps        do not install default dependencies.
-                          [defaults: `npm i mocha standard --save-dev`]
+    -D, --noDeps        do not install default dependencies.
+                        [defaults: `npm i mocha standard --save-dev`]
 
-      --modules <string>  a list of node modules to install, i.e., `--modules "lodash moment"` or
-                          `--modules "lodash, moment"`. this option is independent from no-dependencies
-                          option -D or --noDeps.
+    --mods <string>     a list of node modules to install, i.e.,
+                        `--modules "lodash moment"` or `--modules "lodash, moment"`.
+                        this option is independent from no-dependencies option
+                        -D or --noDeps.
 
-    Overrides:
+  Overrides:
 
-      --desc    <string>  description for package.json and github repository if using `hub`.
-                          enclose the string in quotes, i.e., "This is an awesome project"
-      --author  <string>  author name for project. [default reads from .npmrc or 'Your Name']
-      --email   <string>  email for project. [default reads from .npmrc or 'your@email.com']
-      --user    <string>  github username [default reads from .npmrc or 'githubName']
-      --license <string>  license type for project. [default reads from .npmrc => ISC]
-      --pkgv    <string>  semantic version for project [default reads from .npmrc => 1.0.0]
+    --desc    <string>  description for package.json and github repository if using `hub`.
+    --author  <string>  author name for project. [default reads from .npmrc or 'Your Name']
+    --email   <string>  email for project. [default reads from .npmrc or 'your@email.com']
+    --user    <string>  github username [default reads from .npmrc or 'githubName']
+    --license <string>  license type for project. [default reads from .npmrc => ISC]
+    --pkgv    <string>  semantic version for project [default reads from .npmrc => 1.0.0]
 
-    */
+  */
   }.toString().split(/\n/).slice(2, -2).join('\n'))
   process.exit(0)
 }
@@ -176,13 +177,13 @@ function chkRemote () {
 
 // install dependencies
 if (argv.noDeps || argv.D) opts.install = false
-if (argv.modules) packages()
+if (argv.mods) packages()
 
 function packages () {
-  opts.packages = opts.packages.concat(words(argv.modules))
+  opts.packages = opts.packages.concat(words(argv.mods))
   if (argv.noDeps || argv.D) {
     opts.install = true
-    opts.packages = words(argv.modules)
+    opts.packages = words(argv.mods)
   }
 }
 
