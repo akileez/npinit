@@ -2,7 +2,7 @@
  * {{packageName}} <https://github.com/{{name}}/{{packageName}}>
  *
  * Copyright (c) {{year}} {{author}}.
- * Licensed under the MIT license.
+ * Licensed under the {{license}} license.
  */
 
 'use strict'
