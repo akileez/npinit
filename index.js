@@ -28,16 +28,21 @@ function init (opts) {
 function tmpls (opts, cb) {
   const writer = write(opts.meta)
   const files = opts.files
+  const license = opts.meta.license
 
   process.stdout.write(blu('\nTemplates:\n\n'))
 
   if (files.gitignore) writer('./.gitignore', '../templates/gitignore')
   if (files.index) writer('./index.js', '../templates/index.js')
-  if (files.license) writer('./LICENSE', '../templates/LICENSE')
   if (files.package) writer('./package.json', '../templates/package')
   if (files.readme) writer('./README.md', '../templates/README.md')
   if (files.test) writer('./test.js', '../templates/test.js')
   if (files.travis) writer('./.travis.yml', '../templates/travis.yml')
+  if (files.license) {
+    if (license === 'MIT') writer('./LICENSE', '../templates/LICENSE-MIT')
+    if (license === 'ISC') writer('./LICENSE', '../templates/LICENSE-ISC')
+    if (license !== ('MIT' || 'ISC')) writer('./LICENSE', '../templates/LICENSE-UN')
+  }
   tim(50)(function () {
     cb(true)
   })
