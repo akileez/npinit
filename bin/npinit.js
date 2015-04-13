@@ -58,12 +58,13 @@ function usage () {
 
     --addRemote         process will use the generic git command:
 
-                            `git remote add origin https://github.com/username/repo.git`
+                          `git remote add origin https://github.com/username/repo.git`
 
-                        username and repo will be automactically added. You will have
-                        to enter your github username and password. Leaving this option
-                        off will use `hub` (https://github.com/github/hub) to create
-                        the remote repository. [default command `hub create`]
+                        username and repo will be automactically added. Leaving this
+                        option off will use `hub` (https://github.com/github/hub)
+                        to createthe remote repository. [default command `hub create`].
+                        You will have to enter your github username and password
+                        if NOT using the --noPush option.
 
     -R, --noRemote      do not create a remote repository on github. noRemote
                         assumes noPush and will override addRemote if both are present.
