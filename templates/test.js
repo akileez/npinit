@@ -1,7 +1,3 @@
-const test = require('tape')
+const mocha = require('mocha')
 const index = require('./')
 
-test('', function (t) {
-  t.plan(0)
-  index()
-})
