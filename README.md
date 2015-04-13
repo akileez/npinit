@@ -75,7 +75,7 @@ npm config set init.version 0.1.0
                         [defaults: `npm i mocha standard --save-dev`]
 
     --mods <string>     a list of node modules to install, i.e.,
-                        `--modules "lodash moment"` or `--modules "lodash, moment"`.
+                        `--mods "lodash moment"` or `--mods "lodash, moment"`.
                         this option is independent from no-dependencies option
                         -D or --noDeps.
 
