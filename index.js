@@ -40,8 +40,8 @@ function tmpls (opts, cb) {
   if (files.travis) writer('./.travis.yml', '../templates/travis.yml')
   if (files.license) {
     if (license === 'MIT') writer('./LICENSE', '../templates/LICENSE-MIT')
-    if (license === 'ISC') writer('./LICENSE', '../templates/LICENSE-ISC')
-    if (license !== ('MIT' || 'ISC')) writer('./LICENSE', '../templates/LICENSE-UN')
+    else if (license === 'ISC') writer('./LICENSE', '../templates/LICENSE-ISC')
+    else writer('./LICENSE', '../templates/LICENSE-UN')
   }
   tim(50)(function () {
     cb(true)
