@@ -172,7 +172,7 @@ function chkRemote () {
   } else {
     opts.meta.noRemote = false
     opts.meta.noPush = argv.noPush || argv.P ? true : false
-    opts.meta.remoteCmd = argv.addRemote ? "addRemote" : "hubCreate"
+    opts.meta.remoteCmd = argv.addRemote ? 'addRemote' : 'hubCreate'
   }
 }
 
