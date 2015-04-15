@@ -5,6 +5,14 @@
 [![Downloads][downloads-image]][downloads-url]
 [![experimental][stability-image]][stability-url]
 
+---
+
+Creates a new node project. Does other stuff as well.
+
+## Goals
+
+To quickly initate a project, with complete structure, for testing, developing and/or publishing 
+node modules with or without a public or private git repository. Whew, that was a mouthful!
 
 
 ## Installation
@@ -119,10 +127,13 @@ npinit hellotest -rD
 - to use a base argument processor and config it for application use (argh)
 
 ## See Also
-[initialize](https://www.npmjs.com/package/initialize). Inspiration of this project. Essentially a fork. I say 
-essentially because I am only using the project structure. Practically all internals have been (or yet to be) refactored.
+[initialize](https://www.npmjs.com/package/initialize). Inspiration of this project. Essentially a fork. (A bloated fork)  
+[create-module](https://github.com/finnp/create-module). Another awesome project/module creation process which is extremely efficent.   
+[ghrepo](https://github.com/mattdesl/ghrepo). Still another awesome project. Love the code organization and style.  
+[ghwd](https://github.com/zeke/ghwd). For the command line junkie like me.  
+[hub](https://github.com/github/hub). syntactic sugar for the git command.  
+[argh](https://www.npmjs.com/package/argh). light weight option/argv parser for node, it only parses options, nothing more then that.  
 
-[argh](https://www.npmjs.com/package/argh). light weight option/argv parser for node, it only parses options, nothing more then that.
 ## License [![ISC license][license-img]][license-url]
 [ISC](https://tldrlegal.com/license/-isc-license)
 
