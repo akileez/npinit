@@ -7,7 +7,7 @@ const init = require('../')
 const log = require('../lib/log')
 const meta = require('../lib/meta')
 
-// checks for help
+// usage, version and projectName
 // ///////////////////////////////////////////////////////////////////////////////
 const noCommands = process.argv.length <= 2 && process.stdin.isTTY
 const chk4help = (argv.argv !== undefined && argv.argv[0] === 'help') || argv.h || argv.help
@@ -78,10 +78,15 @@ function usage () {
     -D, --noDeps        do not install default dependencies.
                         [defaults: `npm i mocha standard --save-dev`]
 
-    --mods <string>     a list of node modules to install, i.e.,
-                        `--mods "lodash moment"` or `--mods "lodash, moment"`.
+    --packs <string>    a list of node modules to install, i.e.,
+                        `--packs "lodash moment"` or `--packs "lodash, moment"`.
                         this option is independent from no-dependencies option
-                        -D or --noDeps.
+                        -D or --noDeps. [npm i --save packages]
+
+    --devpacks <string> a list of node dev modules to install, i.e.,
+                        `--devpacks "tape istanbul"` or `--devpacks "tape, istanbul"`.
+                        this option is independent from no-dependencies option
+                        -D or --noDeps. [npm i --save-dev devpackages]
 
   Overrides:
 
@@ -113,7 +118,10 @@ function makePkgName (choice) {
 // ///////////////////////////////////////////////////////////////////////////////
 var opts = {
   install: true,
-  packages: ['standard', 'mocha'],
+  devInstall: true,
+  proInstall: false,
+  devpackages: ['standard', 'mocha'],
+  packages: [],
   git: false,
   files: {
     gitignore: false,
@@ -136,12 +144,13 @@ var opts = {
   }
 }
 
-// option configuration
+// git repository configuration
 // ///////////////////////////////////////////////////////////////////////////////
 
 // git repo initialization
 if (argv.r || argv.repo) repo()
 
+// configure private git repository
 function repo () {
   opts.git = true
   opts.meta.repo = 'init'
@@ -164,6 +173,7 @@ if (!pubpriv && pub) {
 // private repo if options -g or --github and -n together
 if (pubpriv && pub) repo()
 
+// configure remote options
 function chkRemote () {
   if (argv.noRemote || argv.R) {
     opts.meta.noRemote = true
@@ -176,19 +186,40 @@ function chkRemote () {
   }
 }
 
-// install dependencies
-if (argv.noDeps || argv.D) opts.install = false
-if (argv.mods) packages()
+// install dependencies configuration
+// ///////////////////////////////////////////////////////////////////////////////
+// turn off default devDependencies
+if (argv.noDeps || argv.D) {
+  opts.install = false
+  opts.devInstall = false
+  opts.files.test = false
+}
+// check for user install dependencies
+if (argv.devpacks) devpackages()
+if (argv.packs) packages()
 
-function packages () {
-  opts.packages = opts.packages.concat(words(argv.mods))
+// configure user installed devDependencies
+function devpackages () {
+  opts.devpackages = opts.devpackages.concat(words(argv.devpacks))
   if (argv.noDeps || argv.D) {
+    opts.devpackages = words(argv.devpacks)
     opts.install = true
-    opts.packages = words(argv.mods)
+    opts.devInstall = true
+    opts.files.test = true
   }
 }
 
-// description for package.json
+// configure user installed dependencies
+function packages () {
+  opts.packages = words(argv.packs)
+  opts.proInstall = true
+  if (argv.noDeps || argv.D) {
+    opts.install = true
+  }
+}
+
+// misc overrides
+// ///////////////////////////////////////////////////////////////////////////////
 const description = argv.desc || argv.description
 if (description) opts.meta.description = description
 else opts.meta.description = 'An awesome module being created'
@@ -199,7 +230,6 @@ else opts.meta.description = 'An awesome module being created'
 
 // get user information, display options & initialize project
 // ///////////////////////////////////////////////////////////////////////////////
-
 meta(opts, function (nwOpts) {
   log(nwOpts)
   if (argv.d || argv.dry) {
