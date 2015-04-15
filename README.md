@@ -7,17 +7,24 @@
 
 ---
 
-Creates a new node project. Does other stuff as well.
+Creates a new node project.
 
-## Goals
+## Goal
 
 To quickly initate a project, with complete structure, for testing, developing and/or publishing 
 node modules with or without a public or private git repository. Whew, that was a mouthful!
 
+## Why?
+
+- to reduce steps/boilerplate in module creation given my preferences
+- to explore node further (process, assert)
+- to get better understanding of callbacks.
+- to use a base argument processor and config it for application use (argh)
+
 
 ## Installation
 ```bash
-$ npm install -g akileez/npinit
+$ npm install -g npinit
 ```
 
 Update your npm config:
@@ -56,7 +63,7 @@ npm config set init.version 0.1.0
                         option `-nr` or `--new --repo` initializing a new private
                         module with a git repository. packageName will not be required.
                         options --addRemote, --noRemote and --noPush are inactive in
-                        this mode.
+                        this mode when `-ng` are run together.
 
     -r, --repo          initialize a git repository when generating a private module
                         [default is none]
@@ -65,18 +72,17 @@ npm config set init.version 0.1.0
 
                           `git remote add origin https://github.com/username/repo.git`
 
-                        You will have to enter your github username and password 
-                        if you omit the --noPush option in conjunction with addRemote. 
-                        user and repo names for the above command will be automactically 
-                        added. By default, npinit uses the `hub` command 
-                        (https://github.com/github/hub) to create a remote repository. 
-                        [`hub` is the default command --> `hub create`]
-                         
+                        username and repo will be automactically added. Leaving this
+                        option off will use `hub` (https://github.com/github/hub)
+                        to createthe remote repository. [default command `hub create`].
+                        You will have to enter your github username and password
+                        if NOT using the --noPush option.
 
     -R, --noRemote      do not create a remote repository on github. noRemote
                         assumes noPush and will override addRemote if both are present.
                         it will also override the default remote command `hub create`
-                        if addRemote is not used when creating a public module.
+                        if addRemote is not present when creating a public module
+                        with flags -g or --github.
 
     -P, --noPush        do not push repository to github. use only with
                         flags -g or --github [default is push]
@@ -84,10 +90,15 @@ npm config set init.version 0.1.0
     -D, --noDeps        do not install default dependencies.
                         [defaults: `npm i mocha standard --save-dev`]
 
-    --mods <string>     a user created list of node modules to install, i.e.,
-                        `--mods "lodash moment"` or `--mods "gulp, less, etc."`.
-                        this option is independent from the no-dependencies option
-                        -D or --noDeps.
+    --packs <string>    a list of node modules to install, i.e.,
+                        `--packs "lodash moment"` or `--packs "lodash, moment"`.
+                        this option is independent from no-dependencies option
+                        -D or --noDeps. [npm i --save packages]
+
+    --devpacks <string> a list of node dev modules to install, i.e.,
+                        `--devpacks "tape istanbul"` or `--devpacks "tape, istanbul"`.
+                        this option is independent from no-dependencies option
+                        -D or --noDeps. [npm i --save-dev devpackages]
 
   Overrides:
 
@@ -114,23 +125,18 @@ npinit -gD --noPush
 npinit test -g 
 #
 npinit test -g --addRemote --noPush
-npinit test -g --noRemote --mods "async lodash coffeescript mout"
+npinit test -g --noRemote --packs "async lodash coffeescript mout"
 npinit test -g --desc "Hello World" --author=me --email "some@body.com" --pkgv "0.4.0" --user=zeke --license "BSD"
-npinit hellotest -rD
+npinit hellotest -rD --devpacks "tape istanbul"
+# local module/repo, no default dependencies, user added devDependencies
 
 ```
-
-## Why?
-- to explore node further (process, assert)
-- to get handle on callbacks.
-- to reduce steps/boilerplate in module creation given my preferences
-- to use a base argument processor and config it for application use (argh)
 
 ## See Also
 [initialize](https://www.npmjs.com/package/initialize). Inspiration of this project. Essentially a fork. (A bloated fork)  
 [create-module](https://github.com/finnp/create-module). Another awesome project/module creation process which is extremely efficent.   
 [ghrepo](https://github.com/mattdesl/ghrepo). Still another awesome project. Love the code organization and style.  
-[ghwd](https://github.com/zeke/ghwd). For the command line junkie like me.  
+[ghwd](https://github.com/zeke/ghwd). For the command line junkies like me.  
 [hub](https://github.com/github/hub). syntactic sugar for the git command.  
 [argh](https://www.npmjs.com/package/argh). light weight option/argv parser for node, it only parses options, nothing more then that.  
 
