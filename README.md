@@ -113,27 +113,37 @@ npm config set init.version 0.1.0
 
 ## Examples
 
-```bash
-npinit -d # same as npinit -dn
-# dry run. will display metadata of configured options (private/local module)
-npinit -dg
-# dry run. metadata of public module with git repo initialize
-npinit -dng # same as npinit -dnr
-# dry run private/local module with git repo initalized
-npinit -gD --noPush 
-# display help because -g/--github wants a package/project name
-npinit test -g 
-#
-npinit test -g --addRemote --noPush
-npinit test -g --noRemote --packs "async lodash coffeescript mout"
-npinit test -g --desc "Hello World" --author=me --email "some@body.com" --pkgv "0.4.0" --user=zeke --license "BSD"
-npinit hellotest -rD --devpacks "tape istanbul"
-# local module/repo, no default dependencies, user added devDependencies
 
-```
+`npinit -d # same as npinit -dn`
+: dry run. will display metadata of configured options (private/local module)  
+
+`npinit -dg`
+: dry run. metadata of public module with git repo initialize  
+
+`npinit -dng # same as npinit -dnr`
+: dry run private/local module with git repo initalized  
+
+`npinit -gD --noPush` 
+: display help because -g/--github wants a package/project name  
+
+`npinit test -g `  
+: test project with repo and pushed to github with command `hub created -d [description]`  
+
+`npinit test -g --addRemote --noPush`
+: test project with repo and remote created to github with https but not pushing to github   
+
+`npinit test -g --noRemote --packs "async lodash coffeescript mout"`
+: test project with repo and no remote created. dependencies of async, lodash, coffeescript and mout installed. same as `npinit test -r --packs "async lodash coffeescript mout"``  
+
+`npinit test -g --desc "Hello World" --author=me --email "some@body.com" --pkgv "0.4.0" --user=zeke --license "BSD"`
+: test project with repo pushed to github with hub create and user overrides  
+
+`npinit hellotest -rD --devpacks "tape istanbul"`
+: local module/repo, no default dependencies, user added devDependencies  
+
 
 ## See Also
-[initialize](https://www.npmjs.com/package/initialize). Inspiration of this project. Essentially a fork. (A bloated fork)  
+[initialize](https://www.npmjs.com/package/initialize). Inspiration of this project. This is my fork, albeit a bloated fork.  
 [create-module](https://github.com/finnp/create-module). Another awesome project/module creation process which is extremely efficent.   
 [ghrepo](https://github.com/mattdesl/ghrepo). Still another awesome project. Love the code organization and style.  
 [ghwd](https://github.com/zeke/ghwd). For the command line junkies like me.  
