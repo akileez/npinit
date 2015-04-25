@@ -161,29 +161,33 @@ function repo () {
 const pubpriv = (argv.g || argv.github) && (argv.n || argv.new)
 const pub = (argv.g || argv.github)
 
-// public repo
+// public repo if option -g or -github
 if (!pubpriv && pub) {
   opts.meta.type = 'public'
   opts.files.license = true
   opts.files.travis = true
   repo()
   chkRemote()
+  remotecommand()
 }
 
 // private repo if options -g or --github and -n together
 if (pubpriv && pub) repo()
 
-// configure remote options
 function chkRemote () {
   if (argv.noRemote || argv.R) {
     opts.meta.noRemote = true
     opts.meta.noPush = true
-    opts.meta.remoteCmd = 'no public repository'
   } else {
     opts.meta.noRemote = false
     opts.meta.noPush = argv.noPush || argv.P ? true : false
-    opts.meta.remoteCmd = argv.addRemote ? 'addRemote' : 'hubCreate'
   }
+}
+
+function remotecommand () {
+  opts.meta.remoteCmd = 'hubCreate'
+  if (argv.addRemote) opts.meta.remoteCmd = 'addRemote'
+  if (argv.noRemote || argv.R) opts.meta.remoteCmd = 'no public repository'
 }
 
 // install dependencies configuration
@@ -193,6 +197,7 @@ if (argv.noDeps || argv.D) {
   opts.install = false
   opts.devInstall = false
   opts.files.test = false
+  opts.devpackages = []
 }
 // check for user install dependencies
 if (argv.devpacks) devpackages()
