@@ -3,7 +3,6 @@
 [![build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 [![Downloads][downloads-image]][downloads-url]
-[![js-standard-style][standard-image]][standard-url]
 
 ## Installation
 ```bash
@@ -37,5 +36,3 @@ $ npm install {{name}}\{{packageName}}
 [coveralls-url]: https://coveralls.io/r/{{name}}/{{packageName}}?branch=master
 [downloads-image]: http://img.shields.io/npm/dm/{{packageName}}.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/{{packageName}}
-[standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
-[standard-url]: https://github.com/feross/standard
