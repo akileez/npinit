@@ -89,14 +89,12 @@ npm config set init.version 0.1.0
                         flags -g or --github [default is push]
 
     --D <string>        a list of node modules to install, i.e.,
-                        `--packs "lodash moment"` or `--packs "lodash, moment"`.
-                        this option is independent from no-dependencies option
-                        -D or --noDeps. [npm i --save packages]
+                        `--D "lodash moment"` or `--D "lodash, moment"`.
+                        [npm i --save packages]
 
     --d <string>        a list of node dev modules to install, i.e.,
-                        `--devpacks "tape istanbul"` or `--devpacks "tape, istanbul"`.
-                        this option is independent from no-dependencies option
-                        -D or --noDeps. [npm i --save-dev devpackages]
+                        `--d "tape istanbul"` or `--d "tape, istanbul"`.
+                        [npm i --save-dev devpackages]
 
   Overrides:
 
