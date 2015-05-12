@@ -26,7 +26,7 @@ $ npm install {{name}}\{{packageName}}
 -
 
 ## License
-[MIT](https://tldrlegal.com/license/mit-license)
+[{{license}}](https://tldrlegal.com/license/{{license}}-license)
 
 [npm-image]: https://img.shields.io/npm/v/{{packageName}}.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/{{packageName}}
