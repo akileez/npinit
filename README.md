@@ -8,6 +8,7 @@
 ---
 
 Creates a new node project.
+!! Breaking change. Options re-configured. 
 
 ## Goal
 
@@ -42,7 +43,7 @@ npm config set init.version 0.1.0
 ```
   Usage: npinit <packageName> [options]
          npinit -n [options]
-         npinit -d [options]
+         npinit -dry [options]
 
   Options:
 
@@ -50,7 +51,7 @@ npm config set init.version 0.1.0
 
     -v, --version       output the version number
 
-    -d, --dry           dry run displaying metadata used for generation
+    --dry               dry run displaying metadata used for generation
 
     -n, --new           new private module. for use without a packageName. the default
                         packageName `testproj###` will be assigned. random number `###`
@@ -87,15 +88,12 @@ npm config set init.version 0.1.0
     -P, --noPush        do not push repository to github. use only with
                         flags -g or --github [default is push]
 
-    -D, --noDeps        do not install default dependencies.
-                        [defaults: `npm i mocha standard --save-dev`]
-
-    --packs <string>    a list of node modules to install, i.e.,
+    --D <string>        a list of node modules to install, i.e.,
                         `--packs "lodash moment"` or `--packs "lodash, moment"`.
                         this option is independent from no-dependencies option
                         -D or --noDeps. [npm i --save packages]
 
-    --devpacks <string> a list of node dev modules to install, i.e.,
+    --d <string>        a list of node dev modules to install, i.e.,
                         `--devpacks "tape istanbul"` or `--devpacks "tape, istanbul"`.
                         this option is independent from no-dependencies option
                         -D or --noDeps. [npm i --save-dev devpackages]
@@ -113,34 +111,34 @@ npm config set init.version 0.1.0
 
 ## Examples
 
+```sh
+npinit --dry # same as npinit -n --dry
+# dry run. will display metadata of configured options (private/local module)  
 
-`npinit -d # same as npinit -dn`
-: dry run. will display metadata of configured options (private/local module)  
+npinit -g --dry
+# dry run. metadata of public module with git repo initialize  
 
-`npinit -dg`
-: dry run. metadata of public module with git repo initialize  
+npinit -ng --dry # same as npinit -dnr
+# dry run private/local module with git repo initalized  
 
-`npinit -dng # same as npinit -dnr`
-: dry run private/local module with git repo initalized  
+npinit -g --noPush
+# display help because -g/--github wants a package/project name  
 
-`npinit -gD --noPush` 
-: display help because -g/--github wants a package/project name  
+npinit test -g  
+# project named test with repo and pushed to github with command `hub created -d [description]`  
 
-`npinit test -g `  
-: test project with repo and pushed to github with command `hub created -d [description]`  
+npinit test -g --addRemote --noPush
+# project named test with repo and remote created to github with https but not pushing to github   
 
-`npinit test -g --addRemote --noPush`
-: test project with repo and remote created to github with https but not pushing to github   
+npinit test -g --noRemote --D "async lodash coffeescript mout " 
+# project named test with repo and no remote created. dependencies of async, lodash, coffeescript and mout installed. same as npinit test -r --D "async lodash coffeescript mout"
 
-`npinit test -g --noRemote --packs "async lodash coffeescript mout"`
-: test project with repo and no remote created. dependencies of async, lodash, coffeescript and mout installed. same as `npinit test -r --packs "async lodash coffeescript mout"``  
+npinit test -g --desc "Hello World" --author=me --email "some@body.com" --pkgv "0.4.0" --user=zeke --license "BSD"
+# project named test with repo pushed to github with hub create and user overrides  
 
-`npinit test -g --desc "Hello World" --author=me --email "some@body.com" --pkgv "0.4.0" --user=zeke --license "BSD"`
-: test project with repo pushed to github with hub create and user overrides  
-
-`npinit hellotest -rD --devpacks "tape istanbul"`
-: local module/repo, no default dependencies, user added devDependencies  
-
+npinit hellotest -r --d "tape istanbul"
+# local module/repo, user added devDependencies  
+```
 
 ## See Also
 [initialize](https://www.npmjs.com/package/initialize). Inspiration of this project. This is my fork, albeit a bloated fork.  
