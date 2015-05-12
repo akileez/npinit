@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const argv = require('argh').argv
 const clog = require('jsome')
+const compact = require('lodash.compact')
 const slug = require('lodash.kebabcase')
 const words = require('lodash.words')
 const init = require('../')
@@ -11,7 +12,7 @@ const meta = require('../lib/meta')
 // ///////////////////////////////////////////////////////////////////////////////
 const noCommands = process.argv.length <= 2 && process.stdin.isTTY
 const chk4help = (argv.argv !== undefined && argv.argv[0] === 'help') || argv.h || argv.help
-const chkstate = argv.n || argv.new || argv.d || argv.dry
+const chkstate = argv.n || argv.new || argv.dry
 
 // usage
 if (chk4help || noCommands) usage()
@@ -30,7 +31,7 @@ function usage () {
 
   Usage: npinit <packageName> [options]
          npinit -n [options]
-         npinit -d [options]
+         npinit -dry [options]
 
   Options:
 
@@ -38,7 +39,7 @@ function usage () {
 
     -v, --version       output the version number
 
-    -d, --dry           dry run displaying metadata used for generation
+    --dry               dry run displaying metadata used for generation
 
     -n, --new           new private module. for use without a packageName. the default
                         packageName `testproj###` will be assigned. random number `###`
@@ -75,15 +76,12 @@ function usage () {
     -P, --noPush        do not push repository to github. use only with
                         flags -g or --github [default is push]
 
-    -D, --noDeps        do not install default dependencies.
-                        [defaults: `npm i mocha standard --save-dev`]
-
-    --packs <string>    a list of node modules to install, i.e.,
+    --D <string>        a list of node modules to install, i.e.,
                         `--packs "lodash moment"` or `--packs "lodash, moment"`.
                         this option is independent from no-dependencies option
                         -D or --noDeps. [npm i --save packages]
 
-    --devpacks <string> a list of node dev modules to install, i.e.,
+    --d <string>        a list of node dev modules to install, i.e.,
                         `--devpacks "tape istanbul"` or `--devpacks "tape, istanbul"`.
                         this option is independent from no-dependencies option
                         -D or --noDeps. [npm i --save-dev devpackages]
@@ -117,10 +115,7 @@ function makePkgName (choice) {
 // default options
 // ///////////////////////////////////////////////////////////////////////////////
 var opts = {
-  install: true,
-  devInstall: true,
-  proInstall: false,
-  devpackages: ['standard', 'mocha'],
+  devpackages: [],
   packages: [],
   git: false,
   files: {
@@ -129,7 +124,7 @@ var opts = {
     license: false,
     package: true,
     readme: true,
-    test: true,
+    test: false,
     travis: false
   },
   meta: {
@@ -192,35 +187,19 @@ function remotecommand () {
 
 // install dependencies configuration
 // ///////////////////////////////////////////////////////////////////////////////
-// turn off default devDependencies
-if (argv.noDeps || argv.D) {
-  opts.install = false
-  opts.devInstall = false
-  opts.files.test = false
-  opts.devpackages = []
-}
 // check for user install dependencies
-if (argv.devpacks) devpackages()
-if (argv.packs) packages()
+if (argv.d) devpackages()
+if (argv.D) packages()
 
 // configure user installed devDependencies
 function devpackages () {
-  opts.devpackages = opts.devpackages.concat(words(argv.devpacks))
-  if (argv.noDeps || argv.D) {
-    opts.devpackages = words(argv.devpacks)
-    opts.install = true
-    opts.devInstall = true
-    opts.files.test = true
-  }
+  opts.devpackages = compact(words(argv.d, /(\w?-?)*/g))
+  opts.files.test = true
 }
 
 // configure user installed dependencies
 function packages () {
-  opts.packages = words(argv.packs)
-  opts.proInstall = true
-  if (argv.noDeps || argv.D) {
-    opts.install = true
-  }
+  opts.packages = compact(words(argv.D, /(\w?-?)*/g))
 }
 
 // misc overrides
@@ -237,7 +216,7 @@ else opts.meta.description = 'An awesome module being created'
 // ///////////////////////////////////////////////////////////////////////////////
 meta(opts, function (nwOpts) {
   log(nwOpts)
-  if (argv.d || argv.dry) {
+  if (argv.dry) {
     process.stdout.write('\n')
     process.stdout.write('\x1b[36mOptions:\x1b[0m ')
     process.stdout.write('\n\n')
