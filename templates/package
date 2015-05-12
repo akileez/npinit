@@ -15,7 +15,7 @@
   "author": {
     "name": "{{author}}",
     "email": "{{email}}",
-    "url": "http://{{url}}"
+    "url": "{{url}}"
   },
   "homepage": "https://github.com/{{name}}/{{packageName}}",
   "bugs": {
