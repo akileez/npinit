@@ -26,7 +26,7 @@ $ npm install {{name}}\{{packageName}}
 -
 
 ## License
-[{{license}}](https://tldrlegal.com/license/{{license}}-license)
+[{{license}}](https://github.com/{{name}}/{{packageName}}/blob/master/LICENSE)
 
 [npm-image]: https://img.shields.io/npm/v/{{packageName}}.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/{{packageName}}
