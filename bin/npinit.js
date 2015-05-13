@@ -113,6 +113,7 @@ function makePkgName (choice) {
 // default options
 // ///////////////////////////////////////////////////////////////////////////////
 var opts = {
+  install: false,
   devpackages: [],
   packages: [],
   git: false,
@@ -186,18 +187,20 @@ function remotecommand () {
 // install dependencies configuration
 // ///////////////////////////////////////////////////////////////////////////////
 // check for user install dependencies
-if (argv.d) devpackages()
-if (argv.D) packages()
+if (argv.d && argv.d !== true) devpackages()
+if (argv.D && argv.D !== true) packages()
 
 // configure user installed devDependencies
 function devpackages () {
   opts.devpackages = compact(words(argv.d, /(\w?-?)*/g))
   opts.files.test = true
+  opts.install = true
 }
 
 // configure user installed dependencies
 function packages () {
   opts.packages = compact(words(argv.D, /(\w?-?)*/g))
+  opts.install = true
 }
 
 // misc overrides
