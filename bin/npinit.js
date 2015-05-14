@@ -104,9 +104,14 @@ function vers () {
 }
 
 function makePkgName (choice) {
+  var testName = 'testproj' + Math.floor(Math.random() * (1000 - 101) + 101)
+
   switch (choice) {
-    case false: return slug(argv.argv[0])
-    case true: return 'testproj' + Math.floor(Math.random() * (1000 - 101) + 101)
+    case false:
+      var tmp = argv.argv[0].toString()
+      if (tmp.length === 0) return testName
+      return slug(argv.argv[0])
+    case true: return testName
   }
 }
 
