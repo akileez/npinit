@@ -116,7 +116,7 @@ npinit --dry # same as npinit -n --dry
 npinit -g --dry
 # dry run. metadata of public module with git repo initialize  
 
-npinit -ng --dry # same as npinit -dnr
+npinit -ng --dry
 # dry run private/local module with git repo initalized  
 
 npinit -g --noPush
