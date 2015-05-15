@@ -7,8 +7,8 @@
 
 ---
 
-Creates a new node project.
-!! Breaking change. Options re-configured. 
+Creates a new node project.  
+!! **Breaking change**. Options re-configured. 
 
 ## Goal
 
@@ -42,6 +42,7 @@ npm config set init.version 0.1.0
 ## Usage
 ```
   Usage: npinit <packageName> [options]
+         npinit <packageName> -dry [options]
          npinit -n [options]
          npinit -dry [options]
 
@@ -129,7 +130,9 @@ npinit test -g --addRemote --noPush
 # project named test with repo and remote created to github with https but not pushing to github   
 
 npinit test -g --noRemote --D "async lodash coffeescript mout " 
-# project named test with repo and no remote created. dependencies of async, lodash, coffeescript and mout installed. same as npinit test -r --D "async lodash coffeescript mout"
+# project named test with repo and no remote created. 
+# dependencies of async, lodash, coffeescript and mout installed. 
+# same as npinit test -r --D "async lodash coffeescript mout"
 
 npinit test -g --desc "Hello World" --author=me --email "some@body.com" --pkgv "0.4.0" --user=zeke --license "BSD"
 # project named test with repo pushed to github with hub create and user overrides  
