@@ -114,8 +114,8 @@ function vers () {
 
 function projName () {
   if (argv.argv) return makePkgName(false)
-  else if (chkstate) return makePkgName(true)
-  else usage()
+  if (chkstate) return makePkgName(true)
+  usage()
 }
 
 function makePkgName (choice) {
