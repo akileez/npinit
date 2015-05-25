@@ -21,10 +21,7 @@
   "bugs": {
     "url": "https://github.com/{{name}}/{{packageName}}/issues"
   },
-  "license": {
-    "type": "{{license}}",
-    "url": "https://github.com/{{name}}/{{packageName}}/blob/master/LICENSE"
-  },
+  "license": "{{license}}",
   "keywords": [],
   "dependencies": {
   },
