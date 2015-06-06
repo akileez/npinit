@@ -3,12 +3,12 @@ const write = require('./lib/write')
 const git = require('./lib/git')
 const tim = require('./lib/timeout')
 const mkdir = require('mkdirp')
-const chalk = require('chalk')
+const clrz = require('colorz')
 
 module.exports = init
 
-const blu = chalk.blue
-const mag = chalk.magenta
+const blu = clrz.blue
+const mag = clrz.magenta
 
 // Init writing files
 // @param {Object} opts

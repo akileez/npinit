@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const argv = require('argh').argv
 const clog = require('jsome')
+const clrz = require('colorz')
 const slug = require('lodash.kebabcase')
 const init = require('../')
 const log = require('../lib/log')
@@ -91,7 +92,7 @@ meta(opts, function (nwOpts) {
   log(nwOpts)
   if (argv.dry) {
     process.stdout.write('\n')
-    process.stdout.write('\x1b[36mOptions:\x1b[0m ')
+    process.stdout.write(clrz.cyan('Options'))
     process.stdout.write('\n\n')
     clog(nwOpts)
   } else {
