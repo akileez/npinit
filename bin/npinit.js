@@ -2,7 +2,6 @@
 const argv = require('argh').argv
 const clog = require('jsome')
 const clrz = require('colorz')
-const slug = require('lodash.kebabcase')
 const init = require('../')
 const log = require('../lib/log')
 const meta = require('../lib/meta')
@@ -127,6 +126,10 @@ function makePkgName (choice) {
       return slug(argv.argv[0])
     case true: return testName
   }
+}
+
+function slug (str) {
+  return str.replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase()
 }
 
 // configure private git repository
