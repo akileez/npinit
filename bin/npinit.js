@@ -129,7 +129,7 @@ function makePkgName (choice) {
 }
 
 function slug (str) {
-  return str.replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase()
+  return str.replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').replace(/^-/g, '').toLowerCase()
 }
 
 // configure private git repository
