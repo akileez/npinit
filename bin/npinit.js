@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 const argv = require('argh').argv
 const clog = require('jsome')
-const compact = require('lodash.compact')
 const slug = require('lodash.kebabcase')
-const words = require('lodash.words')
 const init = require('../')
 const log = require('../lib/log')
 const meta = require('../lib/meta')
@@ -155,13 +153,17 @@ function remotecommand () {
 
 // configure user installed devDependencies
 function devpackages () {
-  opts.devpackages = compact(words(argv.d, /(\w?-?)*/g))
+  opts.devpackages = makeArray(argv.d)
   opts.files.test = true
   opts.install = true
 }
 
 // configure user installed dependencies
 function packages () {
-  opts.packages = compact(words(argv.D, /(\w?-?)*/g))
+  opts.packages =  makeArray(argv.D)
   opts.install = true
+}
+
+function makeArray (str) {
+  return str.toLowerCase().replace(/\,/g, '').split(' ')
 }
