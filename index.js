@@ -1,7 +1,7 @@
 const install = require('./lib/install')
 const write = require('./lib/write')
 const git = require('./lib/git')
-const tim = require('./lib/timeout')
+const tim = require('./lib/src/timeout')
 const mkdir = require('mkdirp')
 const clrz = require('colorz')
 
