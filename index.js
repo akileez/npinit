@@ -1,49 +1,62 @@
-const install = require('./lib/install')
-const write = require('./lib/write')
-const git = require('./lib/git')
-const tim = require('./lib/src/timeout')
-const mkdir = require('mkdirp')
-const clrz = require('colorz')
+/*!
+ * ninit <https://github.com/akileez/ninit>
+ *
+ * Copyright (c) 2015 Keith Williams.
+ * Licensed under the ISC license.
+ */
+var argv        = require('argh').argv
+var mkdirp      = require('mkdirp')
+var meta        = require('./app/meta')
+var install     = require('./app/install')
+var initgit     = require('./app/initgit')
+var installdeps = require('./app/installDependencies')
+var iterate     = require('./lib/iterate')
+var logger      = require('./lib/logger')
 
-module.exports = init
 
-const blu = clrz.blue
-const mag = clrz.magenta
+var operations = [
+  initConfig,
+  userInfo,
+  createDir,
+  installFiles,
+  installDependencies,
+  initRepo,
+]
 
-// Init writing files
-// @param {Object} opts
-function init (opts) {
-  const pn = opts.meta.packageName
+iterate.each(operations, function (err) {
+  assert.ifError(err)
+  console.log('all done')
+})
 
-  mkdir.sync(pn)
-  process.chdir(pn)
-
-  tmpls(opts, function (done) {
-    if (opts.install) install(opts)
-    else if (opts.git) git(opts)
-    else process.stdout.write(mag('\nAll done.\n'))
+function userInfo (cb) {
+  meta(opts, argv, function (res) {
+    opts = res
+    cb(null)
   })
 }
 
-function tmpls (opts, cb) {
-  const writer = write(opts.meta)
-  const files = opts.files
-  const license = opts.meta.license
+function createDir (cb) {
+  mkdirp(opts.meta.packageName, function (err) {
+    process.chdir(opts.meta.packageName)
+    cb(null)
+  })
+}
 
-  process.stdout.write(blu('\nTemplates:\n\n'))
+function installFiles (cb) {
+  install(opts, function (res) {
+    // something here maybe?
+    cb(null)
+  })
+}
 
-  if (files.gitignore) writer('./.gitignore', '../templates/gitignore')
-  if (files.index) writer('./index.js', '../templates/index.js')
-  if (files.package) writer('./package.json', '../templates/package')
-  if (files.readme) writer('./README.md', '../templates/README.md')
-  if (files.test) writer('./test.js', '../templates/test.js')
-  if (files.travis) writer('./.travis.yml', '../templates/travis.yml')
-  if (files.license) {
-    if (license === 'MIT') writer('./LICENSE', '../templates/LICENSE-MIT')
-    else if (license === 'ISC') writer('./LICENSE', '../templates/LICENSE-ISC')
-    else writer('./LICENSE', '../templates/LICENSE-UN')
-  }
-  tim(50)(function () {
-    cb(true)
+function installDependencies (cb) {
+  installdeps(opts, function (res) {
+    cb(null)
+  })
+}
+
+function initRepo (cb) {
+  initgit(opts, function (res) {
+    cb(null)
   })
 }
