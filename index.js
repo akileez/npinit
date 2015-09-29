@@ -9,8 +9,6 @@ var mkdirp      = require('mkdirp')
 var meta        = require('./app/meta')
 var iterate     = require('toolz/src/async/iterate')
 var assert      = require('assert')
-var clog        = require('json-colorz')
-var clrz        = require('colorz')
 // var install     = require('./app/install')
 // var initgit     = require('./app/initgit')
 // var installdeps = require('./app/installDependencies')
@@ -38,7 +36,7 @@ function proc (opts, argv) {
       display.log(res)
       if (argv.dry) {
         display.heading('Options')
-        clog(res)
+        display.dry(res)
         cb(null)
       } else {
         cb(null)
