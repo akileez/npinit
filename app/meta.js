@@ -1,13 +1,12 @@
 const assert = require('assert')
 const nconf = require('npmconf')
-const argv = require('argh').argv
 
 module.exports = makeConfig
 
 // user information & optional overrides
 // ///////////////////////////////////////////////////////////////////////////////
 
-function makeConfig (opts, cb) {
+function makeConfig (opts, argv, cb) {
   getMeta(opts, function (license, version, author, email, url, name) {
     if (argv.license) opts.meta.license = argv.license
     else opts.meta.license = license
