@@ -9,7 +9,7 @@ var mkdirp      = require('mkdirp')
 var meta        = require('./app/meta')
 var iterate     = require('toolz/src/async/iterate')
 var assert      = require('assert')
-// var install     = require('./app/install')
+var tmpls       = require('./app/tmpls')
 // var initgit     = require('./app/initgit')
 // var installdeps = require('./app/installDependencies')
 // var iterate     = require('./lib/iterate')
@@ -19,8 +19,8 @@ function proc (opts, argv) {
 
   var operations = [
     getUserInfo,
-    createDir
-    // installFiles,
+    createDir,
+    installFiles
     // installDependencies,
     // initRepo,
   ]
@@ -55,12 +55,16 @@ function proc (opts, argv) {
     }
   }
 
-  // function installFiles (cb) {
-  //   install(opts, function (res) {
-  //     // something here maybe?
-  //     cb(null)
-  //   })
-  // }
+  function installFiles (cb) {
+    if (!argv.dry) {
+      tmpls(opts, function (res) {
+        // something here maybe?
+        cb(null)
+      })
+    } else {
+      cb(null)
+    }
+  }
 
   // function installDependencies (cb) {
   //   installdeps(opts, function (res) {
