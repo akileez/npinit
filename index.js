@@ -1,5 +1,5 @@
 /*!
- * ninit <https://github.com/akileez/ninit>
+ * ninit <https://github.com/akileez/npinit>
  *
  * Copyright (c) 2015 Keith Williams.
  * Licensed under the ISC license.
@@ -15,13 +15,13 @@ var clrz        = require('colorz')
 // var initgit     = require('./app/initgit')
 // var installdeps = require('./app/installDependencies')
 // var iterate     = require('./lib/iterate')
-var logger      = require('./lib/logger')
+var display      = require('./lib/display')
 
 function proc (opts, argv) {
 
   var operations = [
-    getUserInfo
-    // createDir,
+    getUserInfo,
+    createDir
     // installFiles,
     // installDependencies,
     // initRepo,
@@ -29,17 +29,15 @@ function proc (opts, argv) {
 
   iterate.series(operations, function (err) {
     assert.ifError(err)
-    console.log('all done')
+    display.done()
   })
 
   function getUserInfo (cb) {
     meta(opts, argv, function (res) {
       opts = res
-      logger(res)
+      display.log(res)
       if (argv.dry) {
-        process.stdout.write('\n')
-        process.stdout.write(clrz.cyan('Options'))
-        process.stdout.write('\n\n')
+        display.heading('Options')
         clog(res)
         cb(null)
       } else {
@@ -48,12 +46,16 @@ function proc (opts, argv) {
     })
   }
 
-  // function createDir (cb) {
-  //   mkdirp(opts.meta.packageName, function (err) {
-  //     process.chdir(opts.meta.packageName)
-  //     cb(null)
-  //   })
-  // }
+  function createDir (cb) {
+    if (!argv.dry) {
+      mkdirp(opts.meta.packageName, function (err) {
+        process.chdir(opts.meta.packageName)
+        cb(null)
+      })
+    } else {
+      cb(null)
+    }
+  }
 
   // function installFiles (cb) {
   //   install(opts, function (res) {
