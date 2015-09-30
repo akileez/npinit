@@ -1,6 +1,6 @@
 const exec = require('child_process').exec
 const assert = require('assert')
-const display = require('../lib/display')
+const display = require('./display')
 
 module.exports = gitInit
 
