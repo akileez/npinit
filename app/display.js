@@ -53,7 +53,6 @@ module.exports = {
     ))
     // this.logger(grn('  tags        : ') + mag(opts.tags))
     this.logger(dim(blk('---------------------------------------')))
-    this.logger()
   },
 
   done: function () {
@@ -62,6 +61,7 @@ module.exports = {
   },
 
   heading: function (title) {
+    this.logger()
     this.logger(blu(title))
     this.logger()
   },
