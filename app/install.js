@@ -1,12 +1,11 @@
-var exec              = require('child_process').exec
-var assert            = require('assert')
-var git               = require('./git')
-var concurrent        = require('./src/concurrent')
-var logger            = require('./src/logger')
-var isEmpty           = require('./src/isEmpty')
+var exec       = require('child_process').exec
+var assert     = require('assert')
+var concurrent = require('toolz/src/async/concurrent')
+var display    = require('./display')
+var isEmpty    = require('./src/isEmpty')
 
-function install (opts) {
-  logger.info('\nDependencies:\n\n')
+function install (opts, next) {
+  display.heading('Dependencies:')
 
   function installDependencies (cmd, packages, msg, cb) {
     if (!isEmpty(packages)) {
@@ -42,8 +41,7 @@ function install (opts) {
 
   concurrent.parallel(commands, function (err, results) {
     assert.ifError(err)
-    if (opts.git) git(opts)
-    else logger.msgdone()
+    next(null)
   })
 }
 
