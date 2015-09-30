@@ -1,46 +1,54 @@
-const expand = require('toolz/src/string/expand')
-const display = require('../lib/display')
-const path = require('path')
-const fs = require('fs')
-
+const expand    = require('toolz/src/string/expand')
+const iterate   = require('toolz/src/async/iterate')
+const readFile  = require('toolz/src/file/readFile')
+const writeFile = require('toolz/src/file/writeFile')
+const display   = require('./display')
+const path      = require('path')
+const fs        = require('fs')
+const assert    = require('assert')
 
 function tmpls (opts, cb) {
-  const writer = write(opts.meta)
-  const files = opts.files
+  var tmpl = opts.files
   const license = opts.meta.license
+  var files = []
 
-  display.heading('Templates')
-
-  Object.keys(files).forEach(function (name, key) {
-    if (files[name]) {
-      if (name === 'gitignore' || name === 'travis') {
-        writer('./.' + name, '../tmpls/' + name)
-      } else {
-        writer('./' + name, '../tmpls/' + name)
+  Object.keys(tmpl).forEach(function (name) {
+    if (tmpl[name]) {
+      if (name === 'gitignore') return files.push(name)
+      if (name === 'index' || name === 'test') return files.push(name + '.js')
+      if (name === 'package') return files.push(name + '.json')
+      if (name === 'readme') return files.push(name.toUpperCase() + '.md')
+      if (name === 'travis') return files.push(name + '.yml')
+      if (name === 'license') {
+        if (license === 'ICS') return files.push(name.toUpperCase() + '-ICS')
+        else if (license === 'MIT') return files.push(name.toUpperCase() + '-MIT')
+        else return files.push(name.toUpperCase() + '-UN')
       }
     }
   })
 
-  if (files.license) {
-    if (license === 'MIT') writer('./LICENSE', '../tmpls/LICENSE-MIT')
-    else if (license === 'ISC') writer('./LICENSE', '../tmpls/LICENSE-ISC')
-    else writer('./LICENSE', '../tmpls/LICENSE-UN')
-  }
-}
+  display.heading('Templates')
 
+  iterate.each(files, function (file, key, done) {
+    if (file === 'gitignore' || file === 'travis.yml') {
+      filePath = './.' + file
+    } else {
+      filePath = './' + file
+    }
 
-// Echo str > filePath.
-// @param {String} filePath
-// @param {String} str
-function write (opts) {
-  return function (filePath, str) {
-    str = fs.readFileSync(path.join(__dirname, str), 'utf-8')
-    var tmpl = expand(str, opts)
-    fs.writeFile(filePath, tmpl, function (err) {
-      if (err) display.error(err)
-      display.event('create', filePath)
+    readFile(path.join(__dirname, '../tmpls/' + file), function (err, res) {
+      assert.ifError(err)
+      var tmpl = expand(res, opts.meta)
+      writeFile(filePath, tmpl, function (err) {
+        assert.ifError(err)
+        display.event('create', file, 'white')
+        done(null)
+      })
     })
-  }
+  }, function (err, results) {
+    assert.ifError(err)
+    cb(null)
+  })
 }
 
 module.exports = tmpls
