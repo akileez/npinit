@@ -6,6 +6,7 @@ const iterate = require('toolz/src/async/iterate')
 function init (conf, next) {
   display.heading('Repository')
   var errFlag = false
+  var isPublic = (conf.meta.type === 'public' && !conf.meta.noRemote)
   var gitOps = [
     gitInit,
     githubCreate,
@@ -36,7 +37,7 @@ function init (conf, next) {
   }
 
   function githubCreate (cb) {
-    if (conf.meta.type === 'public' && !conf.meta.noRemote && conf.meta.remoteCmd === 'hubCreate') {
+    if (isPublic && conf.meta.remoteCmd === 'hubCreate') {
       var hubCreate = ['hub create -d ' + '"' + conf.meta.description + '"']
 
       exec(hubCreate, function (err) {
@@ -57,7 +58,7 @@ function init (conf, next) {
   }
 
   function gitaddRemote (cb) {
-    if (conf.meta.type === 'public' && !conf.meta.noRemote) {
+    if (isPublic) {
       if (conf.meta.remoteCmd !== 'hubCreate' || errFlag === true) {
         var addRemote = [
           'git remote add origin https://github.com/' + conf.meta.name + '/' + conf.meta.packageName + '.git'
@@ -82,7 +83,7 @@ function init (conf, next) {
   }
 
   function gitPush (cb) {
-    if (conf.meta.type === 'public' && !conf.meta.noRemote && !conf.meta.noPush) {
+    if (isPublic && !conf.meta.noPush) {
       var pushGit = [
         'git push origin master'
       ]
