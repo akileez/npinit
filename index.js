@@ -5,30 +5,16 @@
  * Licensed under the ISC license.
  */
 
-var mkdirp      = require('mkdirp')
-var meta        = require('./app/meta')
-var iterate     = require('toolz/src/async/iterate')
-var assert      = require('assert')
-var tmpls       = require('./app/tmpls')
-// var initgit     = require('./app/initgit')
-// var installdeps = require('./app/installDependencies')
-// var iterate     = require('./lib/iterate')
-var display      = require('./lib/display')
+var iterate = require('toolz/src/async/iterate')
+var mkdirp  = require('mkdirp')
+var assert  = require('assert')
+var meta    = require('./app/meta')
+var tmpls   = require('./app/tmpls')
+var git     = require('./app/git')
+var install = require('./app/install')
+var display = require('./app/display')
 
 function proc (opts, argv) {
-
-  var operations = [
-    getUserInfo,
-    createDir,
-    installFiles
-    // installDependencies,
-    // initRepo,
-  ]
-
-  iterate.series(operations, function (err) {
-    assert.ifError(err)
-    display.done()
-  })
 
   function getUserInfo (cb) {
     meta(opts, argv, function (res) {
@@ -55,7 +41,7 @@ function proc (opts, argv) {
     }
   }
 
-  function installFiles (cb) {
+  function expandTmpls (cb) {
     if (!argv.dry) {
       tmpls(opts, function (res) {
         // something here maybe?
@@ -66,17 +52,38 @@ function proc (opts, argv) {
     }
   }
 
-  // function installDependencies (cb) {
-  //   installdeps(opts, function (res) {
-  //     cb(null)
-  //   })
-  // }
+  function npmInstall (cb) {
+    if (!argv.dry) {
+      install(opts, function (res) {
+        cb(null)
+      })
+    } else {
+      cb(null)
+    }
+  }
 
-  // function initRepo (cb) {
-  //   initgit(opts, function (res) {
-  //     cb(null)
-  //   })
-  // }
+  function initRepo (cb) {
+    if (!argv.dry) {
+      git(opts, function (res) {
+        cb(null)
+      })
+    } else {
+      cb(null)
+    }
+  }
+
+  var operations = [
+    getUserInfo,
+    createDir,
+    expandTmpls,
+    npmInstall,
+    initRepo
+  ]
+
+  iterate.series(operations, function (err) {
+    assert.ifError(err)
+    display.done()
+  })
 }
 
 module.exports = proc
