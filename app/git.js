@@ -1,81 +1,101 @@
 const exec = require('child_process').exec
 const assert = require('assert')
 const display = require('./display')
+const iterate = require('toolz/src/async/iterate')
 
-module.exports = gitInit
-
-// initialize a git repo
-function gitInit (conf, cb) {
-  var initGit = [
-    'git init --quiet',
-    'git add --all',
-    'git commit -m "initial commit"'
+function init (conf, next) {
+  display.heading('Repository')
+  var errFlag = false
+  var gitOps = [
+    gitInit,
+    githubCreate,
+    gitaddRemote,
+    gitPush
   ]
 
-  display.heading('Repository')
-
-  exec(initGit.join(' && '), function (err) {
+  iterate.series(gitOps, function (err) {
     assert.ifError(err)
-    display.event('repo:', 'inited', 'yel')
-    display.event('repo:', 'templates added', 'yel')
-    display.event('repo:', 'initial commit', 'yel')
+    next(null)
+  })
 
-    if (conf.meta.type === 'public' && !conf.meta.noRemote) {
-      if (conf.meta.remoteCmd === 'hubCreate') githubCreate(conf)
-      else gitaddRemote(conf)
+  // initialize a git repo
+  function gitInit (cb) {
+    var initGit = [
+      'git init --quiet',
+      'git add --all',
+      'git commit -m "initial commit"'
+    ]
+
+    exec(initGit.join(' && '), function (err) {
+      assert.ifError(err)
+      display.event('repo:', 'inited', 'yellow')
+      display.event('repo:', 'templates added', 'yellow')
+      display.event('repo:', 'initial commit', 'yellow')
+      cb(null)
+    })
+  }
+
+  function githubCreate (cb) {
+    if (conf.meta.type === 'public' && !conf.meta.noRemote && conf.meta.remoteCmd === 'hubCreate') {
+      var hubCreate = ['hub create -d ' + '"' + conf.meta.description + '"']
+
+      exec(hubCreate, function (err) {
+        if (err) {
+          display.event('repo:', 'hub not found. (https://github.com/github/hub)', 'red')
+          display.event('repo:', 'will attempt https option', 'red')
+          errFlag = true
+          return cb(null)
+        }
+        display.event('repo:', 'remote created', 'yellow')
+        display.event('repo:', 'description added', 'yellow')
+
+        cb(null)
+      })
     } else {
       cb(null)
     }
-  })
-}
+  }
 
-function githubCreate (conf) {
-  var hubCreate = [
-    'hub create -d ' + '"' + conf.meta.description + '"'
-  ]
-  exec(hubCreate, function (err) {
-    if (err) {
-      display.event('repo:', 'hub not found. (https://github.com/github/hub)', 'red')
-      display.event('repo:', 'will attempt https option', 'red')
-      gitaddRemote(conf)
-    }
-    display.event('repo:', 'remote created', 'yel')
-    display.event('repo:', 'description added', 'yel')
+  function gitaddRemote (cb) {
+    if (conf.meta.type === 'public' && !conf.meta.noRemote) {
+      if (conf.meta.remoteCmd !== 'hubCreate' || errFlag === true) {
+        var addRemote = [
+          'git remote add origin https://github.com/' + conf.meta.name + '/' + conf.meta.packageName + '.git'
+        ]
+        exec(addRemote, function (err) {
+          assert.ifError(err)
+          display.event('repo:', 'https remote added', 'yellow')
 
-    if (!conf.meta.noPush) {
-      gitPush()
+          if (!conf.meta.noPush) {
+            display.event('repo:', 'username and password needed for https push', 'red')
+            return cb(null)
+          }
+
+          cb(null)
+        })
+      } else {
+        cb(null)
+      }
     } else {
-      display.done()
+      cb(null)
     }
-  })
-}
+  }
 
-function gitaddRemote (conf) {
-  var addRemote = [
-    'git remote add origin https://github.com/' + conf.meta.name + '/' + conf.meta.packageName + '.git'
-  ]
-  exec(addRemote, function (err) {
-    assert.ifError(err)
-    display.event('repo:', 'https remote added', 'yel')
+  function gitPush (cb) {
+    if (conf.meta.type === 'public' && !conf.meta.noRemote && !conf.meta.noPush) {
+      var pushGit = [
+        'git push origin master'
+      ]
 
-    if (!conf.meta.noPush) {
-      display.event('repo:', 'username and password needed for https push', 'red')
-      tim(200)(function () {
-        gitPush()
+      exec(pushGit, function (err) {
+        assert.ifError(err)
+        display.event('repo:', 'pushed to github', 'yellow')
+        cb(null)
       })
     } else {
-      display.done()
+      cb(null)
     }
-  })
+  }
 }
 
-function gitPush () {
-  var pushGit = [
-    'git push origin master'
-  ]
-  exec(pushGit, function (err) {
-    assert.ifError(err)
-    display.event('repo:', 'pushed to github', 'yel')
-    display.done()
-  })
-}
+module.exports = init
