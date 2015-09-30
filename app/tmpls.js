@@ -20,7 +20,7 @@ function tmpls (opts, cb) {
       if (name === 'readme') return files.push(name.toUpperCase() + '.md')
       if (name === 'travis') return files.push(name + '.yml')
       if (name === 'license') {
-        if (license === 'ICS') return files.push(name.toUpperCase() + '-ICS')
+        if (license === 'ISC') return files.push(name.toUpperCase() + '-ISC')
         else if (license === 'MIT') return files.push(name.toUpperCase() + '-MIT')
         else return files.push(name.toUpperCase() + '-UN')
       }
