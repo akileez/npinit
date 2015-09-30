@@ -36,12 +36,12 @@ function tmpls (opts, cb) {
       filePath = './' + file
     }
 
-    readFile(path.join(__dirname, '../tmpls/' + file), function (err, res) {
+    readFile(path.join(__dirname, '../lib/' + file), function (err, res) {
       assert.ifError(err)
       var tmpl = expand(res, opts.meta)
       writeFile(filePath, tmpl, function (err) {
         assert.ifError(err)
-        display.event('create', file, 'white')
+        display.event('create:', file, 'white')
         done(null)
       })
     })
