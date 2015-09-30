@@ -3,11 +3,13 @@ const clog  = require('json-colorz')
 const slice = require('toolz/src/array/sliced')
 
 // clrz settings for colorized output
-var blk = clrz.black
-var dim = clrz.dim
-var blu = clrz.blue
-var grn = clrz.green
-var mag = clrz.magenta
+const blk = clrz.black
+const dim = clrz.dim
+const blu = clrz.blue
+const grn = clrz.green
+const mag = clrz.magenta
+const wht = clrz.white
+const yel = clrz.yellow
 
 module.exports = {
   logger: function () {
@@ -64,8 +66,8 @@ module.exports = {
     this.logger()
   },
 
-  event: function (label, text) {
-    this.logger(dim(blk('  ' + label + '  ')), wht(text))
+  event: function (label, text, clr) {
+    this.logger(dim(blk('  ' + label + '  ')), clrz[clr](text))
   },
 
   error: function (err) {
