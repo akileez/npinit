@@ -2,7 +2,7 @@ var exec       = require('child_process').exec
 var assert     = require('assert')
 var concurrent = require('toolz/src/async/concurrent')
 var display    = require('./display')
-var isEmpty    = require('./src/isEmpty')
+var isEmpty    = require('toolz/src/lang/isEmpty')
 
 function install (opts, next) {
   display.heading('Dependencies:')
@@ -11,7 +11,7 @@ function install (opts, next) {
     if (!isEmpty(packages)) {
       concurrent.each(packages, function (val, key, done) {
         exec(cmd + val, function (err) {
-          logger.event('  module: ', val)
+          display.event('module:', val, 'red')
           done(null, msg)
         })
       }, function (err) {
