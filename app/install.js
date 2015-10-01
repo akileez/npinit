@@ -5,7 +5,8 @@ var display    = require('./display')
 var isEmpty    = require('toolz/src/lang/isEmpty')
 
 function install (opts, next) {
-  display.heading('Dependencies:')
+  if (isEmpty(opts.packages) && isEmpty(opts.devpackages)) return next(null)
+  else display.heading('Dependencies:')
 
   function installDependencies (cmd, packages, msg, cb) {
     if (!isEmpty(packages)) {
