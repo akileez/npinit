@@ -1,11 +1,11 @@
+var concurrent = require('toolz/src/async/concurrent')
+var slice      = require('toolz/src/array/sliced')
+var display    = require('./display')
 var exec       = require('child_process').exec
 var assert     = require('assert')
-var concurrent = require('toolz/src/async/concurrent')
-var display    = require('./display')
-var isEmpty    = require('toolz/src/lang/isEmpty')
 
 function install (opts, next) {
-  if (isEmpty(opts.packages) && isEmpty(opts.devpackages)) return next(null)
+  if (isEmpty(opts.packages, opts.devpackages)) return next(null)
   else display.heading('Dependencies:')
 
   function installDependencies (cmd, packages, msg, cb) {
@@ -43,6 +43,13 @@ function install (opts, next) {
   concurrent.parallel(commands, function (err, results) {
     assert.ifError(err)
     next(null)
+  })
+}
+
+function isEmpty () {
+  var args = slice(arguments)
+  return args.every(function (val) {
+    return (val.length === 0)
   })
 }
 
