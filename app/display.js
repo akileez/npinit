@@ -8,8 +8,6 @@ const dim = clrz.dim
 const blu = clrz.blue
 const grn = clrz.green
 const mag = clrz.magenta
-const wht = clrz.white
-const yel = clrz.yellow
 
 module.exports = {
   logger: function () {
