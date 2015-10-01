@@ -63,7 +63,7 @@ function proc (opts, argv) {
   }
 
   function initRepo (cb) {
-    if (!argv.dry) {
+    if (!argv.dry && argv.git) {
       git(opts, function (res) {
         cb(null)
       })
