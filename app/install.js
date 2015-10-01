@@ -49,7 +49,7 @@ function install (opts, next) {
 function isEmpty () {
   var args = slice(arguments)
   return args.every(function (val) {
-    return (val.length === 0)
+    return !val.length
   })
 }
 
