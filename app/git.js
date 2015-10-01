@@ -4,20 +4,26 @@ const display = require('./display')
 const iterate = require('toolz/src/async/iterate')
 
 function init (conf, next) {
-  display.heading('Repository')
-  var errFlag = false
-  var isPublic = (conf.meta.type === 'public' && !conf.meta.noRemote)
-  var gitOps = [
-    gitInit,
-    githubCreate,
-    gitaddRemote,
-    gitPush
-  ]
+  if (conf.git) {
+    display.heading('Repository')
 
-  iterate.series(gitOps, function (err) {
-    assert.ifError(err)
-    next(null)
-  })
+    var errFlag = false
+    var isPublic = (conf.meta.type === 'public' && !conf.meta.noRemote)
+
+    var gitOps = [
+      gitInit,
+      githubCreate,
+      gitaddRemote,
+      gitPush
+    ]
+
+    iterate.series(gitOps, function (err) {
+      assert.ifError(err)
+      next(null)
+    })
+  } else {
+    return next(null)
+  }
 
   // initialize a git repo
   function gitInit (cb) {

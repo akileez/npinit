@@ -8,22 +8,6 @@ function install (opts, next) {
   if (isEmpty(opts.packages, opts.devpackages)) return next(null)
   else display.heading('Dependencies:')
 
-  function installDependencies (cmd, packages, msg, cb) {
-    if (!isEmpty(packages)) {
-      concurrent.each(packages, function (val, key, done) {
-        exec(cmd + val, function (err) {
-          display.event('module:', val, 'red')
-          done(null, msg)
-        })
-      }, function (err) {
-        assert.ifError(err)
-        cb(null, msg)
-      })
-    } else {
-      cb(null, msg)
-    }
-  }
-
   var commands = {
     cmd1: function (cb) {
       var cmd = 'npm install --save-dev '
@@ -44,6 +28,22 @@ function install (opts, next) {
     assert.ifError(err)
     next(null)
   })
+
+  function installDependencies (cmd, packages, msg, cb) {
+    if (!isEmpty(packages)) {
+      concurrent.each(packages, function (val, key, done) {
+        exec(cmd + val, function (err) {
+          display.event('module:', val, 'red')
+          done(null, msg)
+        })
+      }, function (err) {
+        assert.ifError(err)
+        cb(null, msg)
+      })
+    } else {
+      cb(null, msg)
+    }
+  }
 }
 
 function isEmpty () {

@@ -8,8 +8,8 @@ const fs        = require('fs')
 const assert    = require('assert')
 
 function tmpls (opts, cb) {
-  var tmpl = opts.files
   const license = opts.meta.license
+  const tmpl = opts.files
   var files = []
 
   Object.keys(tmpl).forEach(function (name) {
@@ -26,10 +26,11 @@ function tmpls (opts, cb) {
       }
     }
   })
+  // console.log(files)
 
   display.heading('Templates')
 
-  iterate.each(files, function (file, key, done) {
+  iterate.each(files, function (file, key, next) {
     if (file === 'gitignore' || file === 'travis.yml') {
       filePath = './.' + file
     } else {
@@ -42,7 +43,9 @@ function tmpls (opts, cb) {
       writeFile(filePath, tmpl, function (err) {
         assert.ifError(err)
         display.event('create:', file, 'white')
-        done(null)
+        process.nextTick(function () {
+          return next(null)
+        })
       })
     })
   }, function (err, results) {

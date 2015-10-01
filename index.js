@@ -1,5 +1,5 @@
 /*!
- * ninit <https://github.com/akileez/npinit>
+ * npinit <https://github.com/akileez/npinit>
  *
  * Copyright (c) 2015 Keith Williams.
  * Licensed under the ISC license.
@@ -15,6 +15,18 @@ var install = require('./app/install')
 var display = require('./app/display')
 
 function proc (opts, argv) {
+  var operations = [
+    getUserInfo,
+    createDir,
+    expandTmpls,
+    npmInstall,
+    initRepo
+  ]
+
+  iterate.series(operations, function (err) {
+    assert.ifError(err)
+    display.done()
+  })
 
   function getUserInfo (cb) {
     meta(opts, argv, function (res) {
@@ -63,7 +75,7 @@ function proc (opts, argv) {
   }
 
   function initRepo (cb) {
-    if (!argv.dry && argv.git) {
+    if (!argv.dry) {
       git(opts, function (res) {
         cb(null)
       })
@@ -71,19 +83,6 @@ function proc (opts, argv) {
       cb(null)
     }
   }
-
-  var operations = [
-    getUserInfo,
-    createDir,
-    expandTmpls,
-    npmInstall,
-    initRepo
-  ]
-
-  iterate.series(operations, function (err) {
-    assert.ifError(err)
-    display.done()
-  })
 }
 
 module.exports = proc

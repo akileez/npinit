@@ -1,13 +1,9 @@
 const assert = require('assert')
 const nconf = require('npmconf')
 
-module.exports = makeConfig
-
 // user information & optional overrides
-// ///////////////////////////////////////////////////////////////////////////////
-
 function makeConfig (opts, argv, cb) {
-  getMeta(opts, function (license, version, author, email, url, name) {
+  return getMeta(opts, function (license, version, author, email, url, name) {
     if (argv.license) opts.meta.license = argv.license
     else opts.meta.license = license
 
@@ -26,7 +22,7 @@ function makeConfig (opts, argv, cb) {
     if (argv.user) opts.meta.name = argv.user
     else opts.meta.name = name
 
-    cb(opts)
+    return cb(opts)
   })
 }
 
@@ -42,3 +38,5 @@ function getMeta (conf, cb) {
     cb(license, version, author, email, url, name)
   })
 }
+
+module.exports = makeConfig
