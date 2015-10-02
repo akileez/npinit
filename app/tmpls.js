@@ -16,8 +16,8 @@ function tmpls (opts, cb) {
 
   Object.keys(tmpl).forEach(function (name) {
     if (tmpl[name]) {
-      if (name === 'gitignore') return files.push(name)
-      if (name === 'index' || name === 'test') return files.push(name + '.js')
+      if (isOr(name, 'gitignore', 'eslintrc')) return files.push(name)
+      if (isOr(name, 'index', 'test')) return files.push(name + '.js')
       if (name === 'package') return files.push(name + '.json')
       if (name === 'readme') return files.push(name.toUpperCase() + '.md')
       if (name === 'travis') return files.push(name + '.yml')
@@ -33,7 +33,7 @@ function tmpls (opts, cb) {
   display.heading('Templates')
 
   iterate.each(files, function (file, key, next) {
-    if (isOr(file, 'gitignore', 'travis.yml')) {
+    if (isOr(file, 'gitignore', 'travis.yml', 'eslintrc')) {
       filePath = './.' + file
     } else if (isOr(file, 'LICENSE-MIT', 'LICENSE-ISC', 'LICENSE-UN')) {
       filePath = './' + file.replace(/-(MIT|ISC|UN)/, '')

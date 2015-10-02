@@ -22,6 +22,7 @@ function npinit () {
     git: false,
     files: {
       gitignore: false,
+      eslintrc: true,
       index: true,
       license: false,
       package: true,
