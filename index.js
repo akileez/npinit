@@ -1,7 +1,7 @@
 /*!
  * npinit <https://github.com/akileez/npinit>
  *
- * Copyright (c) 2015 Keith Williams.
+ * Copyright © 2015 Keith Williams.
  * Licensed under the ISC license.
  */
 
