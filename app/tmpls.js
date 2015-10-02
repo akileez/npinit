@@ -2,6 +2,7 @@ const expand    = require('toolz/src/string/expand')
 const iterate   = require('toolz/src/async/iterate')
 const readFile  = require('toolz/src/file/readFile')
 const writeFile = require('toolz/src/file/writeFile')
+const isOr      = require('toolz/src/lang/isOr')
 const display   = require('./display')
 const path      = require('path')
 const fs        = require('fs')
@@ -31,8 +32,10 @@ function tmpls (opts, cb) {
   display.heading('Templates')
 
   iterate.each(files, function (file, key, next) {
-    if (file === 'gitignore' || file === 'travis.yml') {
+    if (isOr(file, 'gitignore', 'travis.yml')) {
       filePath = './.' + file
+    } else if (isOr(file, 'LICENSE-MIT', 'LICENSE-ISC', 'LICENSE-UN')) {
+      filePath = './' + file.replace(/-(MIT|ISC|UN)/, '')
     } else {
       filePath = './' + file
     }
