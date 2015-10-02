@@ -35,9 +35,8 @@ function npinit () {
       packageName: projName(),
       type: 'private',
       repo: 'none',
-      remoteCmd: 'none',
-      noPush: false,
-      noRemote: false
+      remote: false,
+      push: false
     }
   }
 
@@ -52,11 +51,12 @@ function npinit () {
   // public repo if option -g or -github
   if (!pubpriv && pub) {
     opts.meta.type = 'public'
+    opts.meta.remote = 'hubCreate'
+    opts.meta.push = true
     opts.files.license = true
     opts.files.travis = true
     repo()
     chkRemote()
-    remotecommand()
   }
 
   // private repo if options -g or --github and -n together
@@ -115,7 +115,7 @@ function npinit () {
       -r, --repo          initialize a git repository when generating a private module
                           [default is none]
 
-      --addRemote         process will use the generic git command:
+      --remote            process will use the generic git command:
 
                             `git remote add origin https://github.com/username/repo.git`
 
@@ -125,8 +125,8 @@ function npinit () {
                           You will have to enter your github username and password
                           if NOT using the --noPush option.
 
-      -R, --noRemote      do not create a remote repository on github. noRemote
-                          assumes noPush and will override addRemote if both are present.
+      --no-remote         do not create a remote repository on github. no-remote
+                          will not push a repo to github.
                           it will also override the default remote command `hub create`
                           if addRemote is not present when creating a public module
                           with flags -g or --github.
@@ -191,19 +191,13 @@ function npinit () {
   }
 
   function chkRemote () {
-    if (argv.noRemote || argv.R) {
-      opts.meta.noRemote = true
-      opts.meta.noPush = true
-    } else {
-      opts.meta.noRemote = false
-      opts.meta.noPush = argv.noPush || argv.P ? true : false
+    if (argv.remote) {
+      opts.meta.remote = 'addRemote'
+    } else if (argv.remote === false) {
+      opts.meta.type = 'private'
+      opts.meta.remote = false
+      opts.meta.push = false
     }
-  }
-
-  function remotecommand () {
-    opts.meta.remoteCmd = 'hubCreate'
-    if (argv.addRemote) opts.meta.remoteCmd = 'addRemote'
-    if (argv.noRemote || argv.R) opts.meta.remoteCmd = 'no public repository'
   }
 
   // configure user installed devDependencies

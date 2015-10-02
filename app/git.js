@@ -1,5 +1,5 @@
-const exec = require('child_process').exec
-const assert = require('assert')
+const exec    = require('child_process').exec
+const assert  = require('assert')
 const display = require('./display')
 const iterate = require('toolz/src/async/iterate')
 
@@ -8,7 +8,7 @@ function init (conf, next) {
     display.heading('Repository')
 
     var errFlag = false
-    var isPublic = (conf.meta.type === 'public' && !conf.meta.noRemote)
+    var isPublic = (conf.meta.type === 'public' && conf.meta.remote !== false)
 
     var gitOps = [
       gitInit,
@@ -43,7 +43,7 @@ function init (conf, next) {
   }
 
   function githubCreate (cb) {
-    if (isPublic && conf.meta.remoteCmd === 'hubCreate') {
+    if (isPublic && conf.meta.remote === 'hubCreate') {
       var hubCreate = ['hub create -d ' + '"' + conf.meta.description + '"']
 
       exec(hubCreate, function (err) {
@@ -65,7 +65,7 @@ function init (conf, next) {
 
   function gitaddRemote (cb) {
     if (isPublic) {
-      if (conf.meta.remoteCmd !== 'hubCreate' || errFlag === true) {
+      if (conf.meta.remote === 'addRemote' || errFlag === true) {
         var addRemote = [
           'git remote add origin https://github.com/' + conf.meta.name + '/' + conf.meta.packageName + '.git'
         ]
@@ -89,7 +89,7 @@ function init (conf, next) {
   }
 
   function gitPush (cb) {
-    if (isPublic && !conf.meta.noPush) {
+    if (isPublic && conf.meta.push) {
       var pushGit = [
         'git push origin master'
       ]
