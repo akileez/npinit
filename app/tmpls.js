@@ -12,6 +12,7 @@ function tmpls (opts, cb) {
   const license = opts.meta.license
   const tmpl = opts.files
   var files = []
+  var filePath
 
   Object.keys(tmpl).forEach(function (name) {
     if (tmpl[name]) {
