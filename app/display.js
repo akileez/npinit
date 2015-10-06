@@ -79,8 +79,8 @@ module.exports = {
     this.logger(red(text))
   },
 
-  stdout: function (text) {
-    this.logger(dim(blk('installed: ')))
+  stdout: function (label, text) {
+    this.logger(dim(blk(label + ':')))
     this.logger(grn(text))
   }
 }
