@@ -80,7 +80,7 @@ module.exports = {
   },
 
   stdout: function (label, text) {
-    this.logger(dim(blk(label + ':')))
+    this.logger(dim(blk(label)))
     this.logger(grn(text))
   }
 }
