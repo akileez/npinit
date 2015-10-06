@@ -1,12 +1,12 @@
-const expand    = require('toolz/src/string/expand')
-const iterate   = require('toolz/src/async/iterate')
-const readFile  = require('toolz/src/file/readFile')
-const writeFile = require('toolz/src/file/writeFile')
-const isOr      = require('toolz/src/lang/isOr')
-const display   = require('./display')
-const path      = require('path')
-const fs        = require('fs')
-const assert    = require('assert')
+const expand     = require('toolz/src/string/expand')
+const concurrent = require('toolz/src/async/concurrent')
+const readFile   = require('toolz/src/file/readFile')
+const writeFile  = require('toolz/src/file/writeFile')
+const isOr       = require('toolz/src/lang/isOr')
+const display    = require('./display')
+const path       = require('path')
+const fs         = require('fs')
+const assert     = require('assert')
 
 function tmpls (opts, cb) {
   const license = opts.meta.license
@@ -32,7 +32,7 @@ function tmpls (opts, cb) {
 
   display.heading('Templates')
 
-  iterate.each(files, function (file, key, next) {
+  concurrent.each(files, function (file, key, next) {
     if (isOr(file, 'gitignore', 'travis.yml', 'eslintrc')) {
       filePath = './.' + file
     } else if (isOr(file, 'LICENSE-MIT', 'LICENSE-ISC', 'LICENSE-UN')) {
@@ -41,15 +41,13 @@ function tmpls (opts, cb) {
       filePath = './' + file
     }
 
-    readFile(path.join(__dirname, '../lib/' + file), function (err, res) {
+    return readFile(path.join(__dirname, '../lib/' + file), function (err, res) {
       assert.ifError(err)
       var tmpl = expand(res, opts.meta)
       writeFile(filePath, tmpl, function (err) {
         assert.ifError(err)
         display.event('create:', file, 'white')
-        process.nextTick(function () {
-          return next(null)
-        })
+        next(null)
       })
     })
   }, function (err, results) {
