@@ -73,7 +73,7 @@ function init (conf, next) {
           assert.ifError(err)
           display.event('repo:', 'https remote added', 'yellow')
 
-          if (!conf.meta.noPush) {
+          if (conf.meta.push) {
             display.event('repo:', 'username and password needed for https push', 'red')
             return cb(null)
           }
