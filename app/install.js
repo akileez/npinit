@@ -11,37 +11,42 @@ function install (opts, next) {
   var commands = {
     cmd1: function (cb) {
       var cmd = 'npm install --save-dev '
-      installDependencies(cmd, opts.devpackages, 'devDependencies', function (err, msg) {
-        cb(null, msg)
+      installDependencies(cmd, opts.devpackages, function (err) {
+        cb(null)
       })
     },
 
     cmd2: function (cb) {
       var cmd = 'npm install --save '
-      installDependencies(cmd, opts.packages, 'dependencies', function (err, msg) {
-        cb(null, msg)
+      installDependencies(cmd, opts.packages, function (err) {
+        cb(null)
       })
     }
   }
 
-  concurrent.parallel(commands, function (err, results) {
+  concurrent.parallel(commands, function (err) {
     assert.ifError(err)
     next(null)
   })
 
-  function installDependencies (cmd, packages, msg, cb) {
+  function installDependencies (cmd, packages, cb) {
     if (!isEmpty(packages)) {
-      concurrent.each(packages, function (val, key, done) {
-        exec(cmd + val, function (err) {
-          display.event('module:', val, 'red')
-          done(null, msg)
+      concurrent.each(packages, function (module, key, done) {
+        exec(cmd + module, function (err, stdout, stderr) {
+          if (opts.verbose){
+            if (stderr) display.stderr(stderr, module)
+            else display.stdout(stdout)
+          } else {
+            display.event('module:', stderr ? module + ' (err)' : module, 'red')
+          }
+          done(null)
         })
       }, function (err) {
         assert.ifError(err)
-        cb(null, msg)
+        cb(null)
       })
     } else {
-      cb(null, msg)
+      cb(null)
     }
   }
 }
