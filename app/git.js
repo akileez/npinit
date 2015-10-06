@@ -33,11 +33,17 @@ function init (conf, next) {
       'git commit -m "initial commit"'
     ]
 
-    exec(initGit.join(' && '), function (err) {
+    exec(initGit.join(' && '), function (err, stdout) {
       assert.ifError(err)
-      display.event('repo:', 'inited', 'yellow')
-      display.event('repo:', 'templates added', 'yellow')
-      display.event('repo:', 'initial commit', 'yellow')
+
+      if (conf.verbose) {
+        display.stdout('git init, add and commit', stdout)
+      } else {
+        display.event('repo:', 'inited', 'yellow')
+        display.event('repo:', 'templates added', 'yellow')
+        display.event('repo:', 'initial commit', 'yellow')
+      }
+
       cb(null)
     })
   }
