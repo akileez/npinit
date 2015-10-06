@@ -8,6 +8,7 @@ const dim = clrz.dim
 const blu = clrz.blue
 const grn = clrz.green
 const mag = clrz.magenta
+const red = clrz.red
 
 module.exports = {
   logger: function () {
@@ -22,8 +23,8 @@ module.exports = {
   log: function (conf) {
     // log metadata to stdout
     var opts = conf.meta
-    var chkrmt = opts.type === 'public' && !opts.noRemote
-    var chkpsh = opts.type === 'public' && !opts.noRemote && !opts.noPush
+    var chkrmt = (opts.type === 'public' && opts.remote !== false)
+    var chkpsh = opts.type === 'public' && opts.remote && opts.push
     var chktyp = opts.type === 'public' && opts.noRemote
       ? 'public but no remote'
       : opts.type
@@ -39,7 +40,7 @@ module.exports = {
     this.logger(grn('  version     :'), mag(opts.version))
     this.logger(grn('  type        :'), mag(chktyp))
     this.logger(grn('  repository  :'), mag(opts.repo))
-    this.logger(grn('  command     :'), mag(opts.remoteCmd))
+    this.logger(grn('  command     :'), mag(chkrmt ? opts.remote : 'none'))
     this.logger(grn('  remote      :'), mag(chkrmt))
     this.logger(grn('  push        :'), mag(chkpsh))
     this.logger(dim(blk('  ----------------')))
@@ -71,5 +72,15 @@ module.exports = {
   error: function (err) {
     process.stderr.write(err + '\n')
     process.exit(1)
+  },
+
+  stderr: function (text, module) {
+    this.logger(dim(blk('error installing: ')), grn(module))
+    this.logger(red(text))
+  },
+
+  stdout: function (text) {
+    this.logger(dim(blk('installed: ')))
+    this.logger(grn(text))
   }
 }
