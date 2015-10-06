@@ -35,7 +35,7 @@ function install (opts, next) {
         exec(cmd + module, function (err, stdout, stderr) {
           if (opts.verbose){
             if (stderr) display.stderr(stderr, module)
-            else display.stdout(stdout)
+            else display.stdout('installed module:', stdout)
           } else {
             display.event('module:', stderr ? module + ' (err)' : module, 'red')
           }
