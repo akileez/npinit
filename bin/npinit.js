@@ -21,6 +21,7 @@ function npinit () {
     packages: [],
     git: false,
     verbose: false,
+    dryrun: false,
     files: {
       gitignore: false,
       eslintrc: true,
@@ -38,11 +39,18 @@ function npinit () {
       type: 'private',
       repo: 'none',
       remote: false,
-      push: false
+      push: false,
+      author: argv.author,
+      email: argv.email,
+      name: argv.user,
+      url: argv.url,
+      version: argv.pkgv,
+      license: argv.license
     }
   }
 
   if (argv.verbose) opts.verbose = true
+  if (argv.dry) opts.dryrun = true
 
   // git repository configuration
   // git repo initialization
@@ -81,7 +89,7 @@ function npinit () {
   // else opts.meta.tags = ''
 
   // get user information, display options & initialize project
-  return proc(opts, argv)
+  return proc(opts)
 
 
   // configuration functions

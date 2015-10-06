@@ -2,25 +2,14 @@ const assert = require('assert')
 const nconf = require('npmconf')
 
 // user information & optional overrides
-function makeConfig (opts, argv, cb) {
+function makeConfig (opts, cb) {
   return getMeta(opts, function (license, version, author, email, url, name) {
-    if (argv.license) opts.meta.license = argv.license
-    else opts.meta.license = license
-
-    if (argv.pkgv) opts.meta.version = argv.pkgv
-    else opts.meta.version = version
-
-    if (argv.author) opts.meta.author = argv.author
-    else opts.meta.author = author
-
-    if (argv.email) opts.meta.email = argv.email
-    else opts.meta.email = email
-
-    if (argv.url) opts.meta.url = argv.url
-    else opts.meta.url = url
-
-    if (argv.user) opts.meta.name = argv.user
-    else opts.meta.name = name
+    if (!opts.meta.license) opts.meta.license = license
+    if (!opts.meta.version) opts.meta.version = version
+    if (!opts.meta.author) opts.meta.author = author
+    if (!opts.meta.email) opts.meta.email = email
+    if (!opts.meta.url) opts.meta.url = url
+    if (!opts.meta.name) opts.meta.name = name
 
     return cb(opts)
   })

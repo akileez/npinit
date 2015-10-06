@@ -14,7 +14,7 @@ var git     = require('./app/git')
 var install = require('./app/install')
 var display = require('./app/display')
 
-function proc (opts, argv) {
+function proc (opts) {
   var operations = [
     getUserInfo,
     createDir,
@@ -29,10 +29,10 @@ function proc (opts, argv) {
   })
 
   function getUserInfo (cb) {
-    meta(opts, argv, function (res) {
+    meta(opts, function (res) {
       opts = res
       display.log(res)
-      if (argv.dry) {
+      if (opts.dryrun) {
         display.heading('Options')
         display.dry(res)
         cb(null)
@@ -43,7 +43,7 @@ function proc (opts, argv) {
   }
 
   function createDir (cb) {
-    if (!argv.dry) {
+    if (!opts.dryrun) {
       mkdirp(opts.meta.packageName, function (err) {
         process.chdir(opts.meta.packageName)
         cb(null)
@@ -54,7 +54,7 @@ function proc (opts, argv) {
   }
 
   function expandTmpls (cb) {
-    if (!argv.dry) {
+    if (!opts.dryrun) {
       tmpls(opts, function (res) {
         // something here maybe?
         cb(null)
@@ -65,7 +65,7 @@ function proc (opts, argv) {
   }
 
   function npmInstall (cb) {
-    if (!argv.dry) {
+    if (!opts.dryrun) {
       install(opts, function (res) {
         cb(null)
       })
@@ -75,7 +75,7 @@ function proc (opts, argv) {
   }
 
   function initRepo (cb) {
-    if (!argv.dry) {
+    if (!opts.dryrun) {
       git(opts, function (res) {
         cb(null)
       })
