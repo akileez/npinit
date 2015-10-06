@@ -20,6 +20,7 @@ function npinit () {
     devpackages: [],
     packages: [],
     git: false,
+    verbose: false,
     files: {
       gitignore: false,
       eslintrc: true,
@@ -40,6 +41,8 @@ function npinit () {
       push: false
     }
   }
+
+  if (argv.verbose) opts.verbose = true
 
   // git repository configuration
   // git repo initialization
