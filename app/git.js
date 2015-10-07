@@ -10,6 +10,7 @@ function init (conf, next) {
 
     var errFlag = false
     var isPublic = (conf.meta.type === 'public' && conf.meta.remote !== false)
+    var isFakeUser = conf.meta.name === 'githubName'
 
     var gitOps = [
       gitInit,
@@ -59,6 +60,11 @@ function init (conf, next) {
   }
 
   function githubCreate (cb) {
+    if (isFakeUser) {
+      display.stderr('github username is not correct', 'hubCreate')
+      display.error('process exiting')
+    }
+
     if (isPublic && conf.meta.remote === 'hubCreate') {
       var hubCreate = ['hub create -d ' + '"' + conf.meta.description + '"']
 
@@ -80,6 +86,11 @@ function init (conf, next) {
   }
 
   function gitaddRemote (cb) {
+    if (isFakeUser) {
+      display.stderr('github username is not correct', 'addRemote')
+      display.error('process exiting')
+    }
+
     if (isPublic) {
       if (conf.meta.remote === 'addRemote' || errFlag === true) {
         var addRemote = [
