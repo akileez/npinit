@@ -27,13 +27,16 @@ function init (conf, next) {
 
   // initialize a git repo
   function gitInit (cb) {
-    var initGit = [
-      'git init --quiet',
+    var initGit
+    var addGit = [
       'git add --all',
       'git commit -m "initial commit"'
     ]
 
-    exec(initGit.join(' && '), function (err, stdout, stderr) {
+    if (conf.verbose) initGit = ['git init']
+    else initGit = ['git init --quiet']
+
+    exec(initGit.concat(addGit).join(' && '), function (err, stdout, stderr) {
       if (conf.verbose) {
         if (stderr || err) display.stderr(stderr, 'git error!')
         if (stdout) display.stdout('git init, add and commit', stdout)
@@ -42,8 +45,6 @@ function init (conf, next) {
         display.event('repo:', 'templates added', 'yellow')
         display.event('repo:', 'initial commit', 'yellow')
       }
-
-      assert.ifError(err)
       cb(null)
     })
   }
