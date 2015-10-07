@@ -45,8 +45,7 @@ function init (conf, next) {
           display.stderr(stderr, 'git error!')
           if (isPublic) process.exit(1)
         }
-
-        if (stdout && gitExists) display.stdout('git init, add and commit', stdout)
+        if (stdout) display.stdout('git init, add and commit', stdout)
       } else if (gitExists) {
         display.event('repo:', 'inited', 'yellow')
         display.event('repo:', 'templates added', 'yellow')
