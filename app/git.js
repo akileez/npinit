@@ -2,6 +2,7 @@ const exec    = require('child_process').exec
 const assert  = require('assert')
 const display = require('./display')
 const iterate = require('toolz/src/async/iterate')
+const exists  = require('toolz/src/file/exists')
 
 function init (conf, next) {
   if (conf.git) {
@@ -37,14 +38,23 @@ function init (conf, next) {
     else initGit = ['git init --quiet']
 
     exec(initGit.concat(addGit).join(' && '), function (err, stdout, stderr) {
+      var gitExists = exists('./.git')
+
       if (conf.verbose) {
-        if (stderr || err) display.stderr(stderr, 'git error!')
-        if (stdout) display.stdout('git init, add and commit', stdout)
-      } else {
+        if (stderr) {
+          display.stderr(stderr, 'git error!')
+          if (isPublic) process.exit(1)
+        }
+
+        if (stdout && gitExists) display.stdout('git init, add and commit', stdout)
+      } else if (gitExists) {
         display.event('repo:', 'inited', 'yellow')
         display.event('repo:', 'templates added', 'yellow')
         display.event('repo:', 'initial commit', 'yellow')
+      } else {
+        assert.ifError(err)
       }
+
       cb(null)
     })
   }
