@@ -1,7 +1,7 @@
 var concurrent = require('toolz/src/async/concurrent')
 var slice      = require('toolz/src/array/sliced')
 var display    = require('./display')
-var exec       = require('child_process').exec
+var exec       = require('child_process').execFile
 var assert     = require('assert')
 
 function install (opts, next) {
@@ -10,15 +10,13 @@ function install (opts, next) {
 
   var commands = {
     cmd1: function (cb) {
-      var cmd = 'npm install --save-dev '
-      installDependencies(cmd, opts.devpackages, function (err) {
+      installDependencies('--save-dev', opts.devpackages, function (err) {
         cb(null)
       })
     },
 
     cmd2: function (cb) {
-      var cmd = 'npm install --save '
-      installDependencies(cmd, opts.packages, function (err) {
+      installDependencies('--save', opts.packages, function (err) {
         cb(null)
       })
     }
@@ -32,7 +30,7 @@ function install (opts, next) {
   function installDependencies (cmd, packages, cb) {
     if (!isEmpty(packages)) {
       concurrent.each(packages, function (module, key, done) {
-        exec(cmd + module, function (err, stdout, stderr) {
+        exec('npm', ['install', cmd, module], function (err, stdout, stderr) {
           if (opts.verbose){
             if (stderr) display.stderr(stderr, module)
             else display.stdout('installed module:', stdout)
