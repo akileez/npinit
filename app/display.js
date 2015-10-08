@@ -1,6 +1,6 @@
+const slice = require('../src/utils').sliced
 const clrz  = require('colorz')
 const clog  = require('json-colorz')
-const slice = require('toolz/src/array/sliced')
 
 // clrz settings for colorized output
 const blk = clrz.black
@@ -75,7 +75,7 @@ module.exports = {
   },
 
   stderr: function (text, module) {
-    this.logger(dim(blk('error installing: ')), grn(module))
+    this.logger(dim(blk('error message: ')), grn(module))
     this.logger(red(text))
   },
 

@@ -5,14 +5,14 @@
  * Licensed under the ISC license.
  */
 
-var iterate = require('toolz/src/async/iterate')
-var mkdirp  = require('mkdirp')
-var assert  = require('assert')
+var iterate = require('./src/iterate')
 var meta    = require('./app/meta')
 var tmpls   = require('./app/tmpls')
 var git     = require('./app/git')
 var install = require('./app/install')
 var display = require('./app/display')
+var mkdirp  = require('mkdirp')
+var assert  = require('assert')
 
 function proc (opts) {
   var operations = [

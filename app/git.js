@@ -1,8 +1,8 @@
+const exists  = require('../src/utils').exists
+const iterate = require('../src/iterate')
+const display = require('./display')
 const exec    = require('child_process').exec
 const assert  = require('assert')
-const display = require('./display')
-const iterate = require('toolz/src/async/iterate')
-const exists  = require('toolz/src/file/exists')
 
 function init (conf, next) {
   if (conf.git) {

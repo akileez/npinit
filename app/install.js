@@ -1,5 +1,5 @@
-var concurrent = require('toolz/src/async/concurrent')
-var slice      = require('toolz/src/array/sliced')
+var concurrent = require('../src/concurrent')
+var slice      = require('../src/utils').sliced
 var display    = require('./display')
 var exec       = require('child_process').execFile
 var assert     = require('assert')

@@ -1,11 +1,10 @@
-const expand     = require('toolz/src/string/expand')
-const concurrent = require('toolz/src/async/concurrent')
-const readFile   = require('toolz/src/file/readFile')
-const writeFile  = require('toolz/src/file/writeFile')
-const isOr       = require('toolz/src/lang/isOr')
+const expand     = require('../src/expand')
+const concurrent = require('../src/concurrent')
+const readFile   = require('../src/utils').readFile
+const writeFile  = require('../src/utils').writeFile
+const slice      = require('../src/utils').sliced
 const display    = require('./display')
 const path       = require('path')
-const fs         = require('fs')
 const assert     = require('assert')
 
 function tmpls (opts, cb) {
@@ -58,6 +57,13 @@ function processFile (filePath, file, opts, done) {
       display.event('create:', file, 'white')
       done()
     })
+  })
+}
+
+function isOr (value) {
+  var args = slice(arguments, 1, arguments.length)
+  return args.some(function (val) {
+    return (value === val)
   })
 }
 
