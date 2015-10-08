@@ -1,4 +1,4 @@
-# ninit
+# npinit
 [![NPM version][npm-image]][npm-url]
 [![schoolmarm-standard-style][marm-image]][marm-url]
 [![experimental][stability-image]][stability-url]
