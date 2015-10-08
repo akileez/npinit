@@ -11,12 +11,14 @@ function install (opts, next) {
   var commands = {
     cmd1: function (cb) {
       installDependencies('--save-dev', opts.devpackages, function (err) {
+        assert.ifError(err)
         cb(null)
       })
     },
 
     cmd2: function (cb) {
       installDependencies('--save', opts.packages, function (err) {
+        assert.ifError(err)
         cb(null)
       })
     }
@@ -31,7 +33,10 @@ function install (opts, next) {
     if (!isEmpty(packages)) {
       concurrent.each(packages, function (module, key, done) {
         exec('npm', ['install', cmd, module], function (err, stdout, stderr) {
-          if (opts.verbose){
+          // purposely not handling error.
+          // I want the error to pass-through and display reuslts with stderr
+          // or display.event. npm error should not stop creation of module.
+          if (opts.verbose) {
             if (stderr) display.stderr(stderr, module)
             if (stdout) display.stdout('installed module:', stdout)
           } else {

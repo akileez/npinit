@@ -91,7 +91,6 @@ function npinit () {
   // get user information, display options & initialize project
   return proc(opts)
 
-
   // configuration functions
   // ///////////////////////////////////////////////////////////////////////////////
   function usage () {
