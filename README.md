@@ -42,33 +42,36 @@ npm config set init.version 0.1.0
 Preview [images](https://github.com/akileez/npinit/wiki/preview-images) available in the wiki.
 
 ```sh
-npinit --dry # same as npinit -n --dry
-# dry run. will display metadata of configured options (private/local module)  
+# dry run. will display metadata of configured options (private/local module) 
+# same as npinit -n --dry 
+npinit --dry 
 
-npinit -g --dry
-# dry run. metadata of public module with git repo initialize  
+# dry run. metadata of public module with git repo initialize 
+npinit -g --dry 
 
-npinit -ng --dry
-# dry run private/local module with git repo initalized  
+# dry run private/local module with git repo initalized
+npinit -ng --dry  
 
+# display help because -g/--github wants a package/project name 
 npinit -g --no-remote
-# display help because -g/--github wants a package/project name  
 
-npinit test -g  
-# project named test with repo and pushed to github with command `hub created -d [description]`  
+# project named test with repo and pushed to github with 
+# command `hub created -d [description]`
+npinit test -g    
 
-npinit test -g --remote 
 # project named test with repo and remote created to github with https
+npinit test -g --remote 
 
-npinit test -g --no-remote --D "async lodash coffeescript mout " 
 # project named test with repo and no remote created. 
 # dependencies of async, lodash, coffeescript and mout installed. 
 # same as npinit test -r --D "async lodash coffeescript mout" but
 # license and travis.yml files created.
+npinit test -g --no-remote --D "async lodash coffeescript mout " 
 
-npinit hellotest -r --d "tape istanbul " 
 # local module/repo, user added devDependencies
+npinit hellotest -r --d "tape istanbul " 
 
+# multi-line input. 
 npinit test \
 --desc "Hello World " \
 --author=me \
@@ -78,7 +81,7 @@ npinit test \
 --license "BSD " \
 --d "tape istanbul " \
 --D "async lodash coffeescript mout " \
---github
+--github \
 --verbose
 ```
 
