@@ -39,6 +39,8 @@ npm config set init.version 0.1.0
 ```
 ## Examples
 
+Preview [images](https://github.com/akileez/npinit/wiki/preview-images) available in the wiki.
+
 ```sh
 npinit --dry # same as npinit -n --dry
 # dry run. will display metadata of configured options (private/local module)  
