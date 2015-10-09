@@ -1,11 +1,10 @@
 var concurrent = require('../src/concurrent')
-var slice      = require('../src/utils').sliced
 var display    = require('./display')
 var exec       = require('child_process').execFile
 var assert     = require('assert')
 
 function install (opts, next) {
-  if (isEmpty(opts.packages, opts.devpackages)) return next(null)
+  if (!opts.install) return next(null)
   else display.heading('Dependencies:')
 
   var commands = {
@@ -54,11 +53,8 @@ function install (opts, next) {
   }
 }
 
-function isEmpty () {
-  var args = slice(arguments)
-  return args.every(function (val) {
-    return !val.length
-  })
+function isEmpty (arr) {
+  return !arr.length
 }
 
 module.exports = install
