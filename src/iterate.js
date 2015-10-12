@@ -20,7 +20,7 @@ function asyncEach (obj, iterator, done) {
     return
   }
 
-  asyncEachArray(obj && Object.keys(obj), function (key, index, done) {
+  asyncEachArray(obj && keys(obj), function (key, index, done) {
     iterator(obj[key], key, done)
   }, done)
 }
@@ -43,6 +43,18 @@ function asyncSeries (obj, done) {
       done(err, resultObject)
     })
   }, done)
+}
+
+function keys (obj) {
+  var result = []
+  var key
+
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      result.push(key)
+    }
+  }
+  return result
 }
 
 exports.each      = asyncEach
