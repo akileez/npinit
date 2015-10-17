@@ -84,7 +84,7 @@ function sliced (args, slice, sliceEnd) {
 }
 
 function isOr (value) {
-  var args = slice(arguments, 1, arguments.length)
+  var args = sliced(arguments, 1, arguments.length)
   return args.some(function (val) {
     return (value === val)
   })
