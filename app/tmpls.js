@@ -2,7 +2,9 @@ const expand     = require('../src/expand')
 const concurrent = require('../src/concurrent')
 const readFile   = require('../src/utils').readFile
 const writeFile  = require('../src/utils').writeFile
-const slice      = require('../src/utils').sliced
+const isOr       = require('../src/utils').isOr
+const keys       = require('../src/utils').keys
+const forEach    = require('../src/utils').forEach
 const display    = require('./display')
 const path       = require('path')
 const assert     = require('assert')
@@ -13,7 +15,7 @@ function tmpls (opts, cb) {
   var files = []
   var filePath
 
-  Object.keys(tmpl).forEach(function (name) {
+  forEach(keys(tmpl), function (name) {
     if (tmpl[name]) {
       if (isOr(name, 'gitignore', 'eslintrc')) return files.push(name)
       if (isOr(name, 'index', 'test')) return files.push(name + '.js')
@@ -57,13 +59,6 @@ function processFile (filePath, file, opts, done) {
       display.event('create:', file, 'white')
       done()
     })
-  })
-}
-
-function isOr (value) {
-  var args = slice(arguments, 1, arguments.length)
-  return args.some(function (val) {
-    return (value === val)
   })
 }
 
