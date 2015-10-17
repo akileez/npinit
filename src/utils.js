@@ -83,7 +83,34 @@ function sliced (args, slice, sliceEnd) {
   return res
 }
 
+function isOr (value) {
+  var args = slice(arguments, 1, arguments.length)
+  return args.some(function (val) {
+    return (value === val)
+  })
+}
+
+function keys (obj) {
+  var result = []
+  var key
+
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) result.push(key)
+  }
+  return result
+}
+
+function forEach (arr, fn) {
+  var i = -1
+  var len = arr.length
+
+  while (++i < len) if (fn(arr[i], i, arr) === false) break
+}
+
 exports.writeFile = writeFile
 exports.readFile = readFile
 exports.exists = exists
 exports.sliced = sliced
+exports.isOr = isOr
+exports.keys = keys
+exports.forEach = forEach
