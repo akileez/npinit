@@ -33,8 +33,8 @@
   "homepage": "https://github.com/akileez/npinit",
   "dependencies": {
     "argh": "^0.1.4",
-    "colorz": "^0.1.4",
-    "json-colorz": "^0.1.3",
+    "colorz": "^0.1.9",
+    "json-colorz": "^0.1.4",
     "mkdirp": "^0.5.1",
     "npmconf": "^2.1.2"
   },
