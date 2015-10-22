@@ -42,18 +42,24 @@ npm config set init.version 0.1.0
 Preview [images](https://github.com/akileez/npinit/wiki/preview-images) available in the wiki.
 
 ```sh
-# dry run. will display metadata of configured options (private/local module) 
-# same as npinit -n --dry 
-npinit --dry 
+# display help  
+npinit
+npinit help
+npinit -h
+npinit --help
 
-# dry run. metadata of public module with git repo initialize 
-npinit -g --dry 
+# display version
+npinit -v
+npinit --version
 
-# dry run private/local module with git repo initalized
-npinit -ng --dry  
+# dry run. will display metadata of configured options (private/local module)  
+npinit test -d
+npinit test --dry 
 
-# display help because -g/--github wants a package/project name 
-npinit -g --no-remote
+# dry run. metadata of public or private module with git repo initialization. 
+npinit test -dg
+npinit test -dr 
+npinit test -drg // this does a private module with git repo. dry run though. 
 
 # project named test with repo and pushed to github with 
 # command `hub created -d [description]`
@@ -64,14 +70,17 @@ npinit test -g --remote
 
 # project named test with repo and no remote created. 
 # dependencies of async, lodash, coffeescript and mout installed. 
-# same as npinit test -r --D "async lodash coffeescript mout" but
+# same as npinit test -r --dep "async lodash coffeescript mout" but
 # license and travis.yml files created.
-npinit test -g --no-remote --D "async lodash coffeescript mout " 
+npinit test -g --no-remote --dep "async lodash coffeescript mout " 
 
 # local module/repo, user added devDependencies
-npinit hellotest -r --d "tape istanbul " 
+# stdout trace for npm install and git repo initialization
+npinit test -r --dev "tape istanbul " --verbose
 
 # multi-line input. 
+# make things easier by creating a shell script with inputs
+# to reduce typing.
 npinit test \
 --desc "Hello World " \
 --author=me \
@@ -79,8 +88,8 @@ npinit test \
 --pkgv "0.4.0" \
 --user=zeke \
 --license "BSD " \
---d "tape istanbul " \
---D "async lodash coffeescript mout " \
+--dev "tape istanbul " \
+--dep "async lodash coffeescript mout " \
 --github \
 --verbose
 ```
@@ -105,7 +114,7 @@ Not yet developed. Command-line app only.
 [npm-url]: https://npmjs.org/package/npinit
 [marm-image]: https://img.shields.io/badge/code%20style-marm-brightgreen.svg?style=flat-square
 [marm-url]: https://github.com/akileez/eslint-config-marm
-[stability-image]: https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square
+[stability-image]: https://img.shields.io/badge/stability-experimental-darkorange.svg?style=flat-square
 [stability-url]: https://github.com/akileez/npinit
 [downloads-image]: http://img.shields.io/npm/dm/npinit.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/npinit
