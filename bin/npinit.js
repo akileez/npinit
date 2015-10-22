@@ -5,12 +5,12 @@ const proc = require('../')
 function npinit () {
   // usage, version and projectName
   const noCommands = process.argv.length <= 2 && process.stdin.isTTY
+  const noProjName  = argv.argv === undefined || process.argv[2] !== argv.argv[0]
   const chk4help = (argv.argv !== undefined && argv.argv[0] === 'help') || argv.h || argv.help
-  const chkstate = argv.n || argv.new || argv.dry
+  const chk4test  = (argv.argv !== undefined && argv.argv[0] === 'test')
 
   // usage
-  if (chk4help || noCommands) usage()
-
+  if (noCommands || noProjName || chk4help) usage()
   // version
   if (argv.v || argv.version) vers()
 
@@ -50,18 +50,15 @@ function npinit () {
   }
 
   if (argv.verbose) opts.verbose = true
-  if (argv.dry) opts.dryrun = true
+  if (argv.dry || argv.d) opts.dryrun = true
 
   // git repository configuration
-  // git repo initialization
-  if (argv.r || argv.repo) repo()
-
   // check for private and public projects being created together
-  const pubpriv = (argv.g || argv.github) && (argv.n || argv.new)
   const pub = (argv.g || argv.github)
+  const priv = (argv.r || argv.repo)
 
   // public repo if option -g or -github
-  if (!pubpriv && pub) {
+  if (!priv && pub) {
     opts.meta.type = 'public'
     opts.meta.remote = 'hubCreate'
     opts.meta.push = true
@@ -71,13 +68,15 @@ function npinit () {
     chkRemote()
   }
 
-  // private repo if options -g or --github and -n together
-  if (pubpriv && pub) repo()
+  // private repo options:
+  // together: -g or --github and -r or --repo
+  //  or just: -r or --repo
+  if ((priv && pub) || priv) repo()
 
   // install dependencies configuration
   // check for user install dependencies
-  if (argv.d && argv.d !== true) devpackages()
-  if (argv.D && argv.D !== true) packages()
+  if (argv.dev) devpackages()
+  if (argv.dep) packages()
 
   // misc overrides
   const description = argv.desc || argv.description
@@ -173,13 +172,12 @@ function npinit () {
   }
 
   function projName () {
-    if (argv.argv) return makePkgName(false)
-    if (chkstate) return makePkgName(true)
-    usage()
+    if (chk4test) return makePkgName(true)
+    else return makePkgName(false)
   }
 
   function makePkgName (choice) {
-    var testName = 'testproj' + Math.floor(Math.random() * (1000 - 101) + 101)
+    var testName = 'test-' + Math.floor(Math.random() * (1000 - 101) + 101)
 
     switch (choice) {
       case false:
@@ -213,14 +211,14 @@ function npinit () {
 
   // configure user installed devDependencies
   function devpackages () {
-    opts.devpackages = makeArray(argv.d)
+    opts.devpackages = makeArray(argv.dev)
     opts.files.test = true
     opts.install = true
   }
 
   // configure user installed dependencies
   function packages () {
-    opts.packages =  makeArray(argv.D)
+    opts.packages =  makeArray(argv.dep)
     opts.install = true
   }
 
