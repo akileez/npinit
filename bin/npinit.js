@@ -5,16 +5,23 @@ const proc = require('../')
 function npinit () {
   // usage, version and projectName
   const noCommands = process.argv.length <= 2 && process.stdin.isTTY
-  const noProjName  = argv.argv === undefined || process.argv[2] !== argv.argv[0]
-  const chk4help = (argv.argv !== undefined && argv.argv[0] === 'help') || argv.h || argv.help
-  const chk4test  = (argv.argv !== undefined && argv.argv[0] === 'test')
-  const chk4vers = argv.v || argv.version
+
+  const noProjName = (argv.argv === undefined || process.argv[2] !== argv.argv[0])
+    && !(argv.v || argv.version)
+
+  const chk4help = argv.argv !== undefined
+    && argv.argv[0] === 'help'
+    || argv.h
+    || argv.help
+
+  const chk4test = argv.argv !== undefined
+    && argv.argv[0] === 'test'
 
   // usage
-  if (noCommands || (noProjName && !chk4vers) || chk4help) usage()
+  if (noCommands || noProjName || chk4help) usage()
 
   // version
-  if (chk4vers) vers()
+  if (argv.v || argv.version) vers()
 
   // default options
   var opts = {
