@@ -181,20 +181,8 @@ function npinit () {
   }
 
   function projName () {
-    if (chk4test) return makePkgName(true)
-    else return makePkgName(false)
-  }
-
-  function makePkgName (choice) {
-    var testName = 'test-' + Math.floor(Math.random() * (1000 - 101) + 101)
-
-    switch (choice) {
-      case false:
-        var tmp = argv.argv[0].toString()
-        if (tmp.length === 0) return testName
-        return slug(argv.argv[0])
-      case true: return testName
-    }
+    if (chk4test) return 'test-' + Math.floor(Math.random() * (1000 - 101) + 101)
+    else return slug(argv.argv[0].toString())
   }
 
   function slug (str) {
