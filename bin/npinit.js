@@ -185,10 +185,6 @@ function npinit () {
     else return slug(argv.argv[0].toString())
   }
 
-  function slug (str) {
-    return str.replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').replace(/^-/g, '').toLowerCase()
-  }
-
   // configure private git repository
   function repo () {
     opts.git = true
@@ -220,7 +216,18 @@ function npinit () {
   }
 
   function makeArray (str) {
-    return str.toLowerCase().replace(/\,/g, '').split(' ')
+    return str
+      .toLowerCase()
+      .replace(/\,/g, '')
+      .split(' ')
+  }
+
+  function slug (str) {
+    return str
+      .replace(/([A-Z])/g, '-$1')
+      .replace(/[-_\s]+/g, '-')
+      .replace(/^-/g, '')
+      .toLowerCase()
   }
 }
 
