@@ -59,23 +59,30 @@ npinit test --dry
 # dry run. metadata of public or private module with git repo initialization. 
 npinit test -dg
 npinit test -dr 
-npinit test -drg // this does a private module with git repo. dry run though. 
+npinit test -drg // this creates a private module with git repo. dry run though. 
 
 # project named test with repo and pushed to github with 
 # command `hub created -d [description]`
+# license and travis.yml files are created with github option.
 npinit test -g    
 
-# project named test with repo and remote created to github with https
+# project named test with repo and remote pushed to github using https
 npinit test -g --remote 
+
+# essentially the same command. see next example for differences.
+npinit test -g --no-remote
+npinit test -r
 
 # project named test with repo and no remote created. 
 # dependencies of async, lodash, coffeescript and mout installed. 
 # same as npinit test -r --dep "async lodash coffeescript mout" but
-# license and travis.yml files created.
+# license and travis.yml files are created.
 npinit test -g --no-remote --dep "async lodash coffeescript mout " 
 
 # local module/repo, user added devDependencies
-# stdout trace for npm install and git repo initialization
+# test.js file created with installation of devDependencies
+# stdout trace for npm install and git repo initialization with
+# verbose option
 npinit test -r --dev "tape istanbul " --verbose
 
 # multi-line input. 
