@@ -34,7 +34,7 @@
   "dependencies": {
     "argh": "^0.1.4",
     "colorz": "^0.1.9",
-    "json-colorz": "^0.1.4",
+    "json-colorz": "^0.2.0",
     "mkdirp": "^0.5.1",
     "npmconf": "^2.1.2"
   },
