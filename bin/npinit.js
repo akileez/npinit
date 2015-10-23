@@ -69,7 +69,7 @@ function npinit () {
   const priv = (argv.r || argv.repo)
 
   // public repo if option -g or -github
-  if (!priv && pub) {
+  if (!priv && pub && !chk4test) {
     opts.meta.type = 'public'
     opts.meta.remote = 'hubCreate'
     opts.meta.push = true
@@ -77,12 +77,9 @@ function npinit () {
     opts.files.travis = true
     repo()
     chkRemote()
+  } else {
+    repo()
   }
-
-  // private repo options:
-  // together: -g or --github and -r or --repo
-  //  or just: -r or --repo
-  if ((priv && pub) || priv) repo()
 
   // install dependencies configuration
   // check for user install dependencies
