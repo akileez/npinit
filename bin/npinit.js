@@ -77,7 +77,7 @@ function npinit () {
     opts.files.travis = true
     repo()
     chkRemote()
-  } else {
+  } else if ((priv && pub) || priv) {
     repo()
   }
 
