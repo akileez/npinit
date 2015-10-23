@@ -126,6 +126,8 @@ function npinit () {
       opts.meta.type = 'private'
       opts.meta.remote = false
       opts.meta.push = false
+      opts.files.license = false
+      opts.files.travis = false
     }
   }
 
