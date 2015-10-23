@@ -1,11 +1,11 @@
 // build script to generate the usage display given the
 // prescribed (and preferred) method used within this module.
 
-var fs = require('fs')
 var assert = require('assert')
 var columns = require('toolz/src/text/columns')
 var expand = require('toolz/src/string/expand')
 var writeFile = require('toolz/src/file/writeFile')
+var appendFile = require('toolz/src/file/append')
 var clrz = require('colorz')
 
 console.log(clrz.underline(clrz.cyan('\nBuild Script:')))
@@ -76,7 +76,7 @@ var obj = {
 
 writeFile(dest, expand(usage.toString(), obj), function (err) {
   assert.ifError(err)
-  fs.appendFile(dest, makeModule, function (err) {
+  appendFile(dest, makeModule, function (err) {
     assert.ifError(err)
     console.log('\n  File:', clrz.magenta(dest), 'generated and ready for use.')
     console.log(clrz.green('  Done!'))
