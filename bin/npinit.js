@@ -55,7 +55,8 @@ function npinit () {
       name: argv.user,
       url: argv.url,
       version: argv.pkgv,
-      license: argv.license
+      license: argv.license,
+      description: 'An awesome module being created'
     }
   }
 
@@ -89,15 +90,16 @@ function npinit () {
   if (argv.dep) packages()
 
   // misc overrides
-  const description = argv.desc || argv.description
-  if (description) opts.meta.description = description
-  else opts.meta.description = 'An awesome module being created'
+  // project description
+  if (argv.desc || argv.description) {
+    opts.meta.description = argv.desc || argv.description
+  }
 
   // tags for package.json
   // if (argv.tags) opts.meta.tags = makeArray(argv.tags)
   // else opts.meta.tags = ''
 
-  // get user information, display options & initialize project
+  // initialize project
   return proc(opts)
 
   // configuration functions
