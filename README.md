@@ -17,6 +17,22 @@ To quickly initate a project, with complete structure, for testing, developing a
 - a better understanding of callbacks.
 - use a base argument processor and config it for application use (argh)
 
+## Changes [WIP]
+
+project name is now required else usage() is generated. see next entry for cavet
+can enter `npinit -d [options]` for a dry run without entering a project name.
+flag -n/--new gone. use "test" as project name to replicate initing a new test project.   
+test name generated is now "test-###" instead of "testproj###"   
+flag --addRemote replaced with --remote   
+flag --noRemote replaced with --no-remote   
+flag --noPush removed. determined automatically   
+flag --dry can also use single flag -d   
+flag --D changed to --dep (install Dependencies)   
+flag --d changed to --dev (install devDependencies)   
+verbose option added (--verbose). displays standard output from `git init` and `npm install`   
+using both options -rg or --repo --github generates a private repo only. private overrides public   
+if project name is "test" with option of --github then a private repo will only be generated. I am making the assumption that you will not call a public repo "test". You can over this by naming the project "test1" if you like.   
+
 ## Installation
 ```bash
 $ npm install -g npinit
@@ -61,8 +77,13 @@ npinit test -dg
 npinit test -dr 
 npinit test -drg // this creates a private module with git repo. dry run though. 
 
-# project named test with repo and pushed to github with 
+# project named kmx1 with repo and pushed to github with 
 # command `hub created -d [description]`
+# license and travis.yml files are created with github option.
+npm kmx1 -g
+
+# project named test with repo private created
+# If the name "test" is given a public repo will not be created.
 # license and travis.yml files are created with github option.
 npinit test -g    
 
