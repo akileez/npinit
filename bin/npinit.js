@@ -6,9 +6,10 @@ const proc  = require('../')
 function npinit () {
   // usage, version and projectName
   const noCommands = process.argv.length <= 2 && process.stdin.isTTY
+  const dryRun = argv.d || argv.dry
 
   const noProjName = (argv.argv === undefined || process.argv[2] !== argv.argv[0])
-    && !(argv.v || argv.version)
+    && !(argv.v || argv.version || dryRun)
 
   const chk4help = argv.argv !== undefined
     && argv.argv[0] === 'help'
@@ -17,6 +18,10 @@ function npinit () {
 
   const chk4test = argv.argv !== undefined
     && argv.argv[0] === 'test'
+
+  const isValidName = (argv.argv !== undefined && process.argv[2] == argv.argv[0])
+    && !chk4help
+    && !chk4test
 
   // usage
   if (noCommands || noProjName || chk4help) usage()
@@ -61,7 +66,7 @@ function npinit () {
   }
 
   if (argv.verbose) opts.verbose = true
-  if (argv.dry || argv.d) opts.dryrun = true
+  if (dryRun) opts.dryrun = true
 
   // git repository configuration
   // check for private and public projects being created together
@@ -109,7 +114,8 @@ function npinit () {
 
   function projName () {
     if (chk4test) return 'test-' + Math.floor(Math.random() * (1000 - 101) + 101)
-    else return slug(argv.argv[0].toString())
+    else if (isValidName) return slug(argv.argv[0].toString())
+    else return 'dry-run'
   }
 
   // configure private git repository
