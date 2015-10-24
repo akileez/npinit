@@ -19,8 +19,8 @@ To quickly initate a project, with complete structure, for testing, developing a
 
 ## Changes [WIP]
 
-project name is now required else usage() is generated. see next entry for cavet
-can enter `npinit -d [options]` for a dry run without entering a project name.
+project name is now required else usage() is generated. see next entry for cavet   
+can enter `npinit -d [options]` for a dry run without entering a project name.   
 flag -n/--new gone. use "test" as project name to replicate initing a new test project.   
 test name generated is now "test-###" instead of "testproj###"   
 flag --addRemote replaced with --remote   
