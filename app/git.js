@@ -60,12 +60,12 @@ function init (conf, next) {
   }
 
   function githubCreate (cb) {
-    if (isFakeUser) {
-      display.stderr('github username is not correct', 'hubCreate')
-      display.error('process exiting')
-    }
-
     if (isPublic && conf.meta.remote === 'hubCreate') {
+      if (isFakeUser) {
+        display.stderr('github username is not correct', 'hubCreate')
+        display.error('process exiting')
+      }
+
       var hubCreate = ['hub create -d ' + '"' + conf.meta.description + '"']
 
       exec(hubCreate, function (err) {
@@ -86,30 +86,30 @@ function init (conf, next) {
   }
 
   function gitaddRemote (cb) {
-    if (isFakeUser) {
-      display.stderr('github username is not correct', 'addRemote')
-      display.error('process exiting')
-    }
-
-    if (isPublic) {
-      if (conf.meta.remote === 'addRemote' || errFlag === true) {
-        var addRemote = [
-          'git remote add origin https://github.com/' + conf.meta.name + '/' + conf.meta.packageName + '.git'
-        ]
-        exec(addRemote, function (err) {
-          assert.ifError(err)
-          display.event('repo:', 'https remote added', 'yellow')
-
-          if (conf.meta.push) {
-            display.event('repo:', 'username and password needed for https push', 'red')
-            return cb(null)
-          }
-
-          cb(null)
-        })
-      } else {
-        cb(null)
+    if (isPublic && conf.meta.remote === 'addRemote' || errFlag === true) {
+      if (isFakeUser) {
+        display.stderr('github username is not correct', 'addRemote')
+        display.error('process exiting')
       }
+
+      var addRemote = ['git remote add origin https://github.com/'
+        + conf.meta.name
+        + '/'
+        + conf.meta.packageName
+        + '.git'
+      ]
+
+      exec(addRemote, function (err) {
+        assert.ifError(err)
+        display.event('repo:', 'https remote added', 'yellow')
+
+        if (conf.meta.push) {
+          display.event('repo:', 'username and password needed for https push', 'red')
+          return cb(null)
+        }
+
+        cb(null)
+      })
     } else {
       cb(null)
     }
