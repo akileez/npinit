@@ -5,29 +5,25 @@ const proc  = require('../')
 
 function npinit () {
   // usage, version and projectName
-  const noCommands = process.argv.length <= 2 && process.stdin.isTTY
-  const dryRun = argv.d || argv.dry
+  const noCommands    = process.argv.length <= 2 && process.stdin.isTTY
 
-  const noProjName = (argv.argv === undefined || process.argv[2] !== argv.argv[0])
-    && !(argv.v || argv.version || dryRun)
+  const version       = argv.v || argv.version
+  const dryRun        = argv.d || argv.dry
+  const help          = argv.h || argv.help
 
-  const chk4help = argv.argv !== undefined
-    && argv.argv[0] === 'help'
-    || argv.h
-    || argv.help
+  const argvUNDEF     = argv.argv === undefined
+  const validName     = !argvUNDEF && process.argv[2] === argv.argv[0]
 
-  const chk4test = argv.argv !== undefined
-    && argv.argv[0] === 'test'
-
-  const isValidName = (argv.argv !== undefined && process.argv[2] == argv.argv[0])
-    && !chk4help
-    && !chk4test
+  const noProjName    = (argvUNDEF || !validName) && !(version || dryRun)
+  const chk4help      = validName && argv.argv[0] === 'help' || help
+  const chk4test      = validName && argv.argv[0] === 'test'
+  const validProjName = validName && !chk4help && !chk4test
 
   // usage
   if (noCommands || noProjName || chk4help) usage()
 
   // version
-  if (argv.v || argv.version) vers()
+  if (version) vers()
 
   // default options
   var opts = {
@@ -114,7 +110,7 @@ function npinit () {
 
   function projName () {
     if (chk4test) return 'test-' + Math.floor(Math.random() * (1000 - 101) + 101)
-    else if (isValidName) return slug(argv.argv[0].toString())
+    else if (validProjName) return slug(argv.argv[0].toString())
     else return 'dry-run'
   }
 
