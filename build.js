@@ -27,8 +27,8 @@ var opts = {
   title: 'npinit',
   description: 'node project init - basic unix style module creation.',
   synopsis: [
-    '   npinit <packageName> [options]',
-    '   npinit <packageName> --dry [options]',
+    '   npinit ' + clrz.bold('<packageName>') + ' [options]',
+    '   npinit ' + clrz.bold('<packageName>') + ' --dry [options]',
     '   npinit -d [options]'
   ],
   groups: {
