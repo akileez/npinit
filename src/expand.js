@@ -3,7 +3,7 @@ function expand (template, replacements, regex) {
 
   function resolve (template, data, regex) {
     switch (kindOf(template)) {
-      case 'array' :
+      case 'array' : return resolveArray(template, data, opts)
       case 'object': return resolveObject(template, data, regex)
       case 'string': return resolveString(template, data, regex)
       default      : return template
@@ -11,10 +11,23 @@ function expand (template, replacements, regex) {
   }
 
   function resolveObject (obj, data, regex) {
-    Object.keys(obj).forEach(function (key, idx, arr) {
-      obj[key] = resolve(obj[key], data, regex)
-    })
+    var key
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        obj[key] = resolve(obj[key], data, regex)
+      }
+    }
     return obj
+  }
+
+  function resolveArray (arr, data, regex) {
+    var len = arr.length
+    var i = -1
+
+    while (++i < len) {
+      arr[i] = resolve(arr[i], data, regex)
+    }
+    return arr
   }
 
   function resolveString (str, data, regex) {
@@ -32,9 +45,22 @@ function expand (template, replacements, regex) {
 }
 
 function kindOf (value) {
-  return typeof value === 'object'
-    ? Object.prototype.toString.call(value).replace(/^\[object |\]$/g, '').toLowerCase()
-    : typeof value
+  if (value === null) return 'null'
+  if (value === undefined) return 'undefined'
+
+  if (Array.isArray(value)) return 'array'
+
+  if (typeof value === 'string') return 'string'
+  if (typeof value === 'boolean') return 'boolean'
+  if (typeof value === 'number') return 'number'
+  if (typeof value === 'symbol') return 'symbol'
+  if (typeof value === 'function') return 'function'
+
+  if (value.constructor.name === 'Object') return 'object'
+  if (value.constructor.name === 'RegExp') return 'regexp'
+  if (value.constructor.name === 'Date') return 'date'
+
+  return type.toLowerCase()
 }
 
 function look (obj, key) {
