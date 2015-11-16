@@ -14,6 +14,7 @@ function tmpls (opts, cb) {
   const tmpl = opts.files
   var files = []
   var filePath
+  var lic
 
   forEach(keys(tmpl), function (name) {
     if (tmpl[name]) {
@@ -22,11 +23,6 @@ function tmpls (opts, cb) {
       if (name === 'package') return files.push(name + '.json')
       if (name === 'readme') return files.push(name.toUpperCase() + '.md')
       if (name === 'travis') return files.push(name + '.yml')
-      if (name === 'license') {
-        if (license === 'ISC') return files.push(name.toUpperCase() + '-ISC')
-        else if (license === 'MIT') return files.push(name.toUpperCase() + '-MIT')
-        else return files.push(name.toUpperCase() + '-UN')
-      }
     }
   })
 
@@ -35,27 +31,31 @@ function tmpls (opts, cb) {
   concurrent.each(files, function (file, key, next) {
     if (isOr(file, 'gitignore', 'travis.yml', 'eslintrc')) {
       filePath = './.' + file
-    } else if (isOr(file, 'LICENSE-MIT', 'LICENSE-ISC', 'LICENSE-UN')) {
-      filePath = './' + file.replace(/-(MIT|ISC|UN)/, '')
     } else {
       filePath = './' + file
     }
 
-    processFile(filePath, file, opts, function () {
+    processFile(filePath, '../lib/templates/', file, opts, function () {
       next(null)
     })
   }, function (err, results) {
     assert.ifError(err)
-    cb(null)
+    if (license) lic = license.toLowerCase()
+    else lic = 'no'
+
+    processFile('./LICENSE', '../lib/license/', lic, opts, function () {
+      cb(null)
+    })
   })
 }
 
-function processFile (filePath, file, opts, done) {
-  return readFile(path.join(__dirname, '../lib/' + file), function (err, res) {
+function processFile (filePath, srcdir, file, opts, done) {
+  return readFile(path.join(__dirname, srcdir + file), function (err, res) {
     assert.ifError(err)
     var tmpl = expand(res, opts.meta)
     writeFile(filePath, tmpl, function (err) {
       assert.ifError(err)
+      if (srcdir === '../lib/license/') file = file.toUpperCase() + ' LICENSE'
       display.event('create:', file, 'white')
       done()
     })
