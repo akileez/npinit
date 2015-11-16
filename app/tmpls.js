@@ -40,7 +40,7 @@ function tmpls (opts, cb) {
     })
   }, function (err, results) {
     assert.ifError(err)
-    if (license) lic = license.toLowerCase()
+    if (license && license !== true) lic = license.toLowerCase()
     else lic = 'no'
 
     processFile('./LICENSE', '../lib/license/', lic, opts, function () {
