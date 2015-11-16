@@ -69,18 +69,21 @@ npinit -v
 npinit --version
 
 # dry run. will display metadata of configured options (private/local module)  
+npinit -d
+npinit --dry
 npinit test -d
-npinit test --dry 
+npinit test --dry
+npinit hello-world -d 
 
 # dry run. metadata of public or private module with git repo initialization. 
 npinit test -dg
 npinit test -dr 
 npinit test -drg // this creates a private module with git repo. dry run though. 
 
-# project named kmx1 with repo and pushed to github with 
+# project named hello-world with repo and pushed to github with 
 # command `hub created -d [description]`
 # license and travis.yml files are created with github option.
-npm kmx1 -g
+npm hello-world -g
 
 # project named test with repo private created
 # If the name "test" is given a public repo will not be created.
