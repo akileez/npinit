@@ -2,10 +2,10 @@ function asyncEachArray (arr, iterator, done) {
   if (!arr || !arr.length) return done()
 
   var idx = -1
-  var len
-  var lastIdx
+  var len = arr.length
+  var lastIdx = arr.length
 
-  lastIdx = len = arr.length
+  // lastIdx = len = arr.length
 
   while (++idx < lastIdx) {
     iterator(arr[idx], idx, next)
@@ -23,7 +23,7 @@ function asyncEach (obj, iterator, done) {
     return
   }
 
-  asyncEachArray(obj && Object.keys(obj), function (key, index, done) {
+  asyncEachArray(obj && keys(obj), function (key, index, done) {
     iterator(obj[key], key, done)
   }, done)
 }
@@ -35,18 +35,40 @@ function asyncReduce (obj, result, iterator, done) {
       done(err)
     })
   }, function (err) {
-      done(err, result)
+    done(err, result)
   })
 }
 
 function asyncParallel (obj, done) {
   asyncReduce(obj, [], function (resultObject, v, k, done) {
-    v.call(null, function (err, res) {
+    v(function (err, res) {
       resultObject.push(res)
-      done(null, resultObject)
+      done(err, resultObject)
     })
   }, done)
 }
+
+function once (fn) {
+  return function () {
+    var ret = fn.apply(this, arguments)
+    fn = noop
+    return ret
+  }
+}
+
+function keys (obj) {
+  var result = []
+  var key
+
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      result.push(key)
+    }
+  }
+  return result
+}
+
+function noop () {}
 
 exports.each     = asyncEach
 exports.parallel = asyncParallel

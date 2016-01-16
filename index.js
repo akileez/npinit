@@ -1,49 +1,88 @@
-const install = require('./lib/install')
-const write = require('./lib/write')
-const git = require('./lib/git')
-const tim = require('./lib/src/timeout')
-const mkdir = require('mkdirp')
-const clrz = require('colorz')
+/*!
+ * npinit <https://github.com/akileez/npinit>
+ *
+ * Copyright © 2015 Keith Williams.
+ * Licensed under the ISC license.
+ */
 
-module.exports = init
+var iterate = require('./src/iterate')
+var meta    = require('./app/meta')
+var tmpls   = require('./app/tmpls')
+var git     = require('./app/git')
+var install = require('./app/install')
+var display = require('./app/display')
+var mkdirp  = require('mkdirp')
+var assert  = require('assert')
 
-const blu = clrz.blue
-const mag = clrz.magenta
+function proc (opts) {
+  var operations = [
+    getUserInfo,
+    createDir,
+    expandTmpls,
+    npmInstall,
+    initRepo
+  ]
 
-// Init writing files
-// @param {Object} opts
-function init (opts) {
-  const pn = opts.meta.packageName
-
-  mkdir.sync(pn)
-  process.chdir(pn)
-
-  tmpls(opts, function (done) {
-    if (opts.install) install(opts)
-    else if (opts.git) git(opts)
-    else process.stdout.write(mag('\nAll done.\n'))
+  iterate.series(operations, function (err) {
+    assert.ifError(err)
+    display.done()
   })
-}
 
-function tmpls (opts, cb) {
-  const writer = write(opts.meta)
-  const files = opts.files
-  const license = opts.meta.license
-
-  process.stdout.write(blu('\nTemplates:\n\n'))
-
-  if (files.gitignore) writer('./.gitignore', '../templates/gitignore')
-  if (files.index) writer('./index.js', '../templates/index.js')
-  if (files.package) writer('./package.json', '../templates/package')
-  if (files.readme) writer('./README.md', '../templates/README.md')
-  if (files.test) writer('./test.js', '../templates/test.js')
-  if (files.travis) writer('./.travis.yml', '../templates/travis.yml')
-  if (files.license) {
-    if (license === 'MIT') writer('./LICENSE', '../templates/LICENSE-MIT')
-    else if (license === 'ISC') writer('./LICENSE', '../templates/LICENSE-ISC')
-    else writer('./LICENSE', '../templates/LICENSE-UN')
+  function getUserInfo (cb) {
+    meta(opts, function (res) {
+      opts = res
+      display.log(res)
+      if (opts.dryrun) {
+        display.heading('Options')
+        display.dry(res)
+        cb(null)
+      } else {
+        cb(null)
+      }
+    })
   }
-  tim(50)(function () {
-    cb(true)
-  })
+
+  function createDir (cb) {
+    if (!opts.dryrun) {
+      mkdirp(opts.meta.packageName, function (err) {
+        process.chdir(opts.meta.packageName)
+        cb(null)
+      })
+    } else {
+      cb(null)
+    }
+  }
+
+  function expandTmpls (cb) {
+    if (!opts.dryrun) {
+      tmpls(opts, function (res) {
+        // something here maybe?
+        cb(null)
+      })
+    } else {
+      cb(null)
+    }
+  }
+
+  function npmInstall (cb) {
+    if (!opts.dryrun) {
+      install(opts, function (res) {
+        cb(null)
+      })
+    } else {
+      cb(null)
+    }
+  }
+
+  function initRepo (cb) {
+    if (!opts.dryrun) {
+      git(opts, function (res) {
+        cb(null)
+      })
+    } else {
+      cb(null)
+    }
+  }
 }
+
+module.exports = proc
