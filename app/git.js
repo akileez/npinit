@@ -66,7 +66,7 @@ function init (conf, next) {
         display.error('process exiting')
       }
 
-      var hubCreate = ['hub create -d ' + '"' + conf.meta.description + '"']
+      var hubCreate = 'hub create -d ' + '"' + conf.meta.description + '"'
 
       exec(hubCreate, function (err) {
         if (err) {
@@ -92,12 +92,12 @@ function init (conf, next) {
         display.error('process exiting')
       }
 
-      var addRemote = ['git remote add origin https://github.com/'
+      var addRemote = 'git remote add origin https://github.com/'
         + conf.meta.name
         + '/'
         + conf.meta.packageName
         + '.git'
-      ]
+
 
       exec(addRemote, function (err) {
         assert.ifError(err)
